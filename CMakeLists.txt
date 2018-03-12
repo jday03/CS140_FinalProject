@@ -3,5 +3,5 @@ project(CS140_FinalProject)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp)
-add_executable(CS140_FinalProject ${SOURCE_FILES})
+set(SOURCE_FILES main.cpp pennant.cpp pennant.h)
+add_executable(CS140_FinalProject ${SOURCE_FILES} pennant.cpp pennant.h)
