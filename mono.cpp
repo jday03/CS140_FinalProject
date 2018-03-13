@@ -15,7 +15,7 @@
 //
 
 
-class IntListMonoid;            // forward declaration
+class BagMonoid;            // forward declaration
 
 //  View class.
 //
@@ -23,11 +23,12 @@ class BagView {
     friend class BagMonoid; // for the identity and reduce functions
     bag item;
 public:
-    void add_value(int x) {
-        // Implementation for adding item
-
+    void add_value(node x) {
+        item.insertNode(x);
     }
     bag* get_value() const { return &item; }
+
+
 };
 
 
@@ -41,6 +42,9 @@ struct BagMonoid : public cilk::monoid_base<bag, BagView> {
     //
     static void identity(BagView* view) {
 // Default values
+        if(view == nullptr){
+        view = new BagView;
+        }
 
     }
 
@@ -48,7 +52,7 @@ struct BagMonoid : public cilk::monoid_base<bag, BagView> {
     // Leave the right list empty.
     //
     static void reduce(BagView* left, BagView* right) {
-        // merge left and right
+
     }
 };
 

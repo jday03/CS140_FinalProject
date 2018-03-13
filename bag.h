@@ -10,8 +10,9 @@
 
 #endif //CS140_FINALPROJECT_BAG_H
 class bag{
+public:
+    bag();
     std::vector <pennant*> data;
-
     bag bagSplit();
     void insertPennant(pennant insert);
     void insertNode(node insert);

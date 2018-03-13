@@ -28,5 +28,11 @@ pennant pennant::pennantSplit() {
     return y;
 }
 
+node pennant::getRoot() {
+    return *root;
+}
+
+
+
 
 
