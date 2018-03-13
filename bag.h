@@ -13,8 +13,8 @@ class bag{
     std::vector <pennant*> data;
 
     bag bagSplit();
-    void insert()
-
+    void insertPennant(pennant insert);
+    void insertNode(pennant::node )
 
 
 

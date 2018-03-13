@@ -19,8 +19,13 @@ bag bag::bagSplit() {
 
     }
     if(first != nullptr){
-        insert(first); //BAG INSERT FIRST
+        insert(first->root); //BAG INSERT FIRST
     }
 
     return ;
+}
+
+void bag::insertPennant(pennant insert) {
+
+
 }
