@@ -29,3 +29,8 @@ void bag::insertPennant(pennant insert) {
 
 
 }
+
+void bag::insertNode(node insert) {
+    
+
+}

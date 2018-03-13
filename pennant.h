@@ -2,7 +2,7 @@
 
 struct node
 {
-    int key_value;
+int from, to;
     node *left;
     node *right;
 };

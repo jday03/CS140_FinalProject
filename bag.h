@@ -14,7 +14,7 @@ class bag{
 
     bag bagSplit();
     void insertPennant(pennant insert);
-    void insertNode(pennant::node )
+    void insertNode(node insert);
 
 
 
