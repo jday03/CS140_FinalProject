@@ -13,6 +13,7 @@ public:
     ~pennant();
     pennant pennantUnion(pennant x, pennant y);
     pennant pennantSplit(pennant& x);
+    pennant pennantSplit();
 
 
 private:

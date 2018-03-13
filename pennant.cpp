@@ -20,6 +20,13 @@ pennant pennant::pennantSplit(pennant& x) {
     return y;
 }
 
+pennant pennant::pennantSplit() {
+    pennant y ;
+    y.root = root->left;
+    root->left = y.root->right;
+    y.root->right = nullptr;
+    return y;
+}
 
 
 

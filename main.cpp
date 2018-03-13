@@ -1,6 +1,9 @@
 #include <iostream>
-
+#include<cilk/hyperobject_base.h>
 int main() {
     std::cout << "Hello, World!" << std::endl;
-    return 0;
+    cilk::hyperobject< Bag<int> > succbag();
 }
+
+
+
