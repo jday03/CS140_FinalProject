@@ -17,6 +17,7 @@ public:
     void insertPennant(pennant insert);
     void insertNode(node insert);
     bag bagUnion( bag S1, bag S2);
+    node getANode();
     void FA(pennant & S1_k, pennant & S2_k, pennant );
 
 
