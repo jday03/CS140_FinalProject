@@ -61,6 +61,26 @@ bag bag::bagUnion(bag S1, bag S2) {
     }
 }
 
+getItem(int index){
+    {
+    node* current;
+
+    for(int count = 0; count < data.size();++count){
+    current = data[count];
+    if(current != nullptr){
+        if(index >= pow(count,2)){
+            index = index - pow(count,2);
+        }
+        else {
+        return current.getIndex(index);
+        }
+    }
+
+    }
+
+
+    }
+}
 void FA(pennant&  S1_k, pennant& S2_k, pennant& y){
     int value = 0;
     if( S1_k.root != nullptr)
