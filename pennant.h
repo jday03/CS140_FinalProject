@@ -5,10 +5,12 @@ struct node
 int from, to;
     node *left;
     node *right;
+    bool visited = false; 
     node(int fr, int too){
         from = fr;
         to = too;
     }
+
 };
 
 class pennant {
