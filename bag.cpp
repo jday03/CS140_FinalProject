@@ -42,6 +42,7 @@ bag bag::bagSplit() {
 
 void bag::insertNode(node insert) {
     int count = 0;
+    insert.visited = true;
     // merger must contain insert!!
     pennant merger(insert);
     while (data[count] != nullptr){
