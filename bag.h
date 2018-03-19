@@ -20,7 +20,7 @@ public:
     node getNode(int index);
     void FA(pennant & S1_k, pennant & S2_k, pennant );
     node getItem(int index);
-
+    int size;
 
 
     };
