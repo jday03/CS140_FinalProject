@@ -5,7 +5,7 @@
 #include "bag.h"
 #include "pennant.h"
 bag::bag(){
-
+    size = 0;
 
 }
 bag bag::bagSplit() {
@@ -50,7 +50,7 @@ void bag::insertNode(node insert) {
         data[count] = nullptr;
         count++;
     }
-
+    size++;
     *(data[count]) = merger;
 }
 
@@ -60,6 +60,7 @@ bag bag::bagUnion(bag S1, bag S2) {
     for (std::vector<pennant*>::size_type k = 0; k != S1.data.size(); k++){
         FA( S1.data[k], y );
     }
+    size = S1.size + S2.size;
 }
 
 getItem(int index){
