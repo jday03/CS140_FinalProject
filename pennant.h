@@ -22,7 +22,7 @@ public:
 
 private:
     node *root;
-
+    int size;
 
 };
 
