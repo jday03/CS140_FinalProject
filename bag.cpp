@@ -187,7 +187,7 @@ void bag::eraseAll() {
 }
 
 
-void bag::FA(pennant*  S1_k, pennant* S2_k, pennant* y){
+void bag::FA(pennant*&  S1_k, pennant*& S2_k, pennant* &y){
     int value = 0;
     if( S1_k != NULL)
         value += 1;
@@ -231,14 +231,14 @@ void bag::FA(pennant*  S1_k, pennant* S2_k, pennant* y){
             break;
         case 11 : // 1,1,0
             y = new pennant;
-            y->root = pennant::pennantUnion(S1_k, S2_k)->root;
+            y->root = pennant::pennantUnionCopy(S1_k, S2_k)->root;
             S1_k->root = NULL;
             S1_k->size = 0;
             break;
         case 101 : // 1,0,1
             y = new pennant;
 
-            y->root = pennant::pennantUnion(S1_k, y)->root;
+            y->root = pennant::pennantUnionCopy(S1_k, y)->root;
             S1_k->root = NULL;
             S1_k->size = 0;
 
@@ -247,14 +247,14 @@ void bag::FA(pennant*  S1_k, pennant* S2_k, pennant* y){
             y = new pennant;
             S1_k = new pennant;
 
-            y->root = pennant::pennantUnion(S2_k, y)->root;
+            y->root = pennant::pennantUnionCopy(S2_k, y)->root;
             S1_k->root = NULL;
             S1_k->size = 0;
 
             break;
         case 111 : // 1,1,1
             S1_k->root = S1_k->root;
-            y->root = pennant::pennantUnion(S2_k, y)->root;
+            y->root = pennant::pennantUnionCopy(S2_k, y)->root;
 
     }
 }
