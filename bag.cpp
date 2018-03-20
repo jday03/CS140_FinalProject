@@ -122,19 +122,19 @@ void bag::FA(pennant&  S1_k, pennant& S2_k, pennant& y){
             break;
         case 11 : // 1,1,0
             S1_k.root = nullptr;
-            y.root = pennant::pennantUnion(S1_k, S2_k);
+            y.root = pennant::pennantUnion(S1_k, S2_k).root;
             break;
         case 101 : // 1,0,1
             S1_k.root = nullptr;
-            y.root = pennant::pennantUnion(S1_k, y);
+            y.root = pennant::pennantUnion(S1_k, y).root;
             break;
         case 110 : // 0,1,1
             S1_k.root = nullptr;
-            y.root = pennant::pennantUnion(S2_k, y);
+            y.root = pennant::pennantUnion(S2_k, y).root;
             break;
         case 111 : // 1,1,1
             S1_k.root = S1_k.root;
-            y.root = pennant::pennantUnion(S2_k, y);
+            y.root = pennant::pennantUnion(S2_k, y).root;
 
     }
 }

@@ -14,7 +14,6 @@ void BFS(std::vector<node> graph, node root)
     Bag frontier(root);
     std::map<int, std::vector<int>> depthMap;
     int depthCounter = -1;
-    createNewDepth(depthCounter,depthMap);
 
     while ( ! frontier.isEmpty() )
 {
@@ -26,9 +25,8 @@ for (int i=0; i< frontier.size(); i++){
     std::vector<node*> adjacents = frontier.getItem(i).getAdjacents();
     for (int adjCount = 0; adjCount < adjacents.size(); ++ adjCount) {
         if (adjacents[adjCount]->visited == false) {
+            adjacents[adjCount].depth = depthCounter;
             succbag.insertNode((adjacents[adjCount]));
-
-
         }
     }
 
@@ -36,13 +34,41 @@ for (int i=0; i< frontier.size(); i++){
 frontier = succbag.getValue();
 
 }
+
+    manageDepthCounter(depthCounter,graph,depthMap);
 }
 
 
-void createNewDepth(int num, std::map<int, std::vector<int>> depthMap){
-    std::vector<int> values;
-    std::pair <int,std::vector<int>> newDepth (depth,values);
-    depthMap.insert (newDepth);
 
 
+void manageDepthCounter(int depthCount, std::vector<node> graph,std::map<int, std::vector<int>> depthMap){
+    for(int count = 0; count <= depthCount; ++count){
+        std::vector<int> values;
+        std::pair <int,std::vector<int>> newDepth (count,values);
+        depthMap.insert (newDepth);
+    }
+
+    for(int count = 0; count < graph.size(); ++count){
+        node temp = graph[count];
+        if(temp.depth >= 0){
+            auto iter = depthMap.find(temp.depth);
+            iter->second->insert(iter->end(),temp.number);
+        }
+    }
+
+}
+
+
+
+void printDepthCounter(depthMap){
+    auto iter = depthMap.find(0);
+    while (iter != depthMap.end()){
+        auto vec = iter->second;
+        std::cout<< "Nodes at depth: ";
+        for(int count = 0; count < vec.size();++count){
+            std::cout<< " " << vec[count] << " ,";
+
+        }
+        std::cout << std::endl;
+    }
 }
