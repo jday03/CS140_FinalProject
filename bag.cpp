@@ -167,7 +167,7 @@ node bag::getItem(int index){
     }
 
     }
-    exit(1);
+    //exit(1);
 
 
 
