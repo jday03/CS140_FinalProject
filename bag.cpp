@@ -129,7 +129,7 @@ bag bag::bagUnion(bag S1, bag S2) {
     else
         max = S2_size;
 
-    for (std::vector<pennant*>::size_type k = 0; k < max; k++){
+    for (std::vector<pennant*>::size_type k = 0; k <= max; k++){
         pennant *empty = new pennant;
         delete empty->root;
         empty->root =NULL;

@@ -141,8 +141,10 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     bag frontier;
     frontier.insertNode(ptr);
 
+    bag frontier2;
+    frontier2.insertNode(ptr);
 
-      // frontier = frontier.bagUnion(frontier,frontier2);
+    frontier = frontier.bagUnion(frontier,frontier2);
     int depthCounter = 0;
 
     while ( ! frontier.isEmpty() )
