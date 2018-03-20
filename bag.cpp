@@ -123,12 +123,13 @@ bag bag::bagUnion(bag S1, bag S2) {
     for (std::vector<pennant*>::size_type k = 0; k != S1.data.size(); k++){
         FA( S1.data[k], S2.data[k], y );
     }
-    size = S1.size + S2.size;
-
-    }
+   // size = S1.size + S2.size;
+    this->size = S1.size + S2.size;
+    return S1;
+}
 
 node bag::getItem(int index){
-    {
+
     pennant* current;
 
     for(int count = 0; count < data.size();++count){
@@ -143,9 +144,10 @@ node bag::getItem(int index){
     }
 
     }
+    exit(1);
 
 
-    }
+
 }
 
 void bag::eraseAll() {
@@ -171,32 +173,42 @@ void bag::FA(pennant*  S1_k, pennant* S2_k, pennant* y){
     switch(value){
         case 0 : // 0,0,0
             S1_k->root = NULL;
+            S2_k->size = 0;
             y->root = NULL;
+            y->size = 0;
             break;
         case 1 : // 1,0,0
             S1_k->root = S1_k->root;
             y->root = NULL;
+            y->size = 0;
             break;
         case 10 : //0,1,0
             S1_k->root = S2_k->root;
             y->root = NULL;
+            y->size = 0;
             break;
         case 100: //0,0,1
             S1_k->root = y->root;
             y->root = NULL;
+            y->size = 0;
             break;
         case 11 : // 1,1,0
-            S1_k->root = NULL;
 
             y->root = pennant::pennantUnion(S1_k, S2_k)->root;
+            S1_k->root = NULL;
+            S1_k->size = 0;
             break;
         case 101 : // 1,0,1
-            S1_k->root = NULL;
             y->root = pennant::pennantUnion(S1_k, y)->root;
+            S1_k->root = NULL;
+            S1_k->size = 0;
+
             break;
         case 110 : // 0,1,1
-            S1_k->root = NULL;
             y->root = pennant::pennantUnion(S2_k, y)->root;
+            S1_k->root = NULL;
+            S1_k->size = 0;
+
             break;
         case 111 : // 1,1,1
             S1_k->root = S1_k->root;
