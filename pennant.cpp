@@ -3,21 +3,27 @@
 #include "pennant.h"
 
 pennant:: pennant(){
-    root = NULL;
+    root = new node;
+    size = 0;
 }
 
 
 // Makes the left branch of root rootStart. Useful when initializing the pennant with a node.
 // Assumed that the node has no children.
 pennant:: pennant(node* rootStart){
-    (root->left) = rootStart;
+    root = new node (rootStart);
     size = 1;
 }
 
 pennant pennant::pennantUnion(pennant x, pennant y){
+    if(x.size ==1 && y.size == 1){
+        x.size++;
+        x.root->left = y.root;
+
+    } else{
     x.size = x.size + y.size;
     y.root->right = x.root->left;
-    x.root = y.root;
+    x.root->left = y.root;}
     return x;
 }
 
@@ -76,9 +82,8 @@ node pennant::getIndex(int index) {
 }
 
 pennant::~pennant() {
-    root->left = NULL;
-    root->right = NULL;
     delete root;
+
 }
 
 

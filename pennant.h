@@ -17,6 +17,19 @@ struct node
         visited = false;
         depth = -1;
     }
+    node(){
+        left = NULL;
+        right = NULL;
+        number = -1;
+    }
+
+    node(node* copy){
+        number = copy->number;
+        visited = copy->visited;
+        depth = copy->depth;
+        adjacencies = copy->adjacencies;
+
+    }
 
     std::vector<node*> adjacencies;
     void addAdjacency(node* adjacentNode){

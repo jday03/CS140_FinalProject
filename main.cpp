@@ -67,32 +67,34 @@ struct BagMonoid : public cilk::monoid_base<bag, BagView> {
 
 
 
-void insertEdge(std::vector<node> &graph, int to, int from ){
+void insertEdge(std::vector<node*> &graph, int to, int from ){
     while(to >= graph.size()){
-        node newNode(graph.size());
+        node* newNode = new node(graph.size());
         graph.insert(graph.end(),newNode);
 
     }
-
     while(from >= graph.size()){
-        node newNode(graph.size());
+        node* newNode = new node(graph.size());
         graph.insert(graph.end(),newNode);
 
     }
 
-    node* first = &graph[to];
-    node* second = &graph[from];
-    (first->adjacencies).insert(first->adjacencies.end(),second );
-    second->adjacencies.insert(second->adjacencies.end(), first);
+   // node* newNode = new node(graph.size());
+    //graph.insert(graph.end(),newNode);
 
-    std::cout<< first->adjacencies[0]->number << " " << second->adjacencies[0]->number << std::endl;
+
+    node* first = graph.at(to);
+    node* second = graph.at(from);
+
+    first->addAdjacency(second);
+    second->addAdjacency(first);
 
 }
 
 
 
 
-void manageDepthCounter(int depthCount, std::vector <node> graph,std::map < int, std::vector < int > > depthMap){
+void manageDepthCounter(int depthCount, std::vector <node*> graph,std::map < int, std::vector < int > > depthMap){
     for(int count = 0; count <= depthCount; ++count){
         std::vector<int> values;
         std::pair <int,std::vector<int> > newDepth (count,values);
@@ -100,10 +102,10 @@ void manageDepthCounter(int depthCount, std::vector <node> graph,std::map < int,
     }
 
     for(int count = 0; count < graph.size(); ++count){
-        node temp = graph[count];
-        if(temp.depth >= 0){
-            std::map<int, std::vector<int> >::iterator iter = depthMap.find(temp.depth);
-            iter->second.insert(iter->second.end(),temp.number);
+        node* temp = graph[count];
+        if(temp->depth >= 0){
+            std::map<int, std::vector<int> >::iterator iter = depthMap.find(temp->depth);
+            iter->second.insert(iter->second.end(),temp->number);
         }
     }
 
@@ -129,17 +131,18 @@ void printDepthCounter(std::map<int, std::vector<int> > depthMap ){
 
 
 
-
-//void BFS(std::vector<node> graph, node root)
-std::map<int, std::vector<int> > BFS(std::vector<node> graph, node root)
+std::map<int, std::vector<int> > BFS(node* root)
 {
-    root.visited = true;
-    node* ptr = &root;
+    std::map<int, std::vector<int> > depthMap;
+  std::cout << "hello";
+    root->visited = true;
+    node* ptr = root;
     bag frontier;
     frontier.insertNode(ptr);
-    std::map<int, std::vector<int> > depthMap;
+   frontier.insertNode(ptr->adjacencies[0]);
+    std::cout << "size is: " << frontier.size;
     int depthCounter = -1;
-
+/*
     while ( ! frontier.isEmpty() )
     {
         depthCounter++;
@@ -161,7 +164,9 @@ std::map<int, std::vector<int> > BFS(std::vector<node> graph, node root)
     }
 
     manageDepthCounter(depthCounter,graph,depthMap);
+    */
     return depthMap;
+
 }
 
 
@@ -179,8 +184,7 @@ int main(int argc, char **argv) {
         printf("Usage : ./pbfs <graphinputfile> \n");
         exit(-1);
     }
-    std::vector<node> graph;
-    bag Bag;
+    std::vector<node*> graph;
 
     std::ifstream inFile;
     inFile.open(argv[1]);
@@ -191,20 +195,29 @@ int main(int argc, char **argv) {
         inFile>>temp2;
         //temp2 = inFile.get();
         //add vertexes to graph
-        insertEdge(graph,temp2,temp1);
+       // std::cout << "1:" << temp1 << " 2: " << temp2 << std::endl;
+        insertEdge(graph,temp1,temp2);
     }
+
+    std::cout << "v 2 num: " << graph[2]->number << std::endl;
+    std::cout << "v 2 adj1: " << graph[2]->adjacencies[0]->number<< std::endl;
+
+    for(int i = 1; i < graph.size(); ++i){
+        std::cout << i << ": " << graph[9]->adjacencies[0]->number << std::endl;
+    }
+
 
     std::map<int, std::vector<int> > depthMap;
 
-    srand(time(NULL));
-    t1 = example_get_time();
-    node * ptr = Bag.data[0]->root;
-    depthMap = BFS(graph,*ptr );
+    //srand(time(NULL));
+   // t1 = example_get_time();
+    node * ptr = graph[1];
+     BFS(ptr );
 
-    t2 = example_get_time();
-    printDepthCounter(depthMap);
+   // t2 = example_get_time();
+    //printDepthCounter(depthMap);
 
-    std::cout << "Time: " << t2 - t1 << std::endl;
+   // std::cout << "Time: " << t2 - t1 << std::endl;
     return 0;
 
 

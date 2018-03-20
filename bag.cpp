@@ -6,6 +6,7 @@
 #include "bag.h"
 #include <map>
 #include <vector>
+#include <iostream>
 #include "pennant.h"
 
 bag::bag(){
@@ -52,29 +53,51 @@ bag bag::bagSplit() {
 
 
 void bag::insertNode(node* insert) {
-    insert ->left = NULL;
-    insert -> right = NULL;
+    node* newNode = new node(insert);
+
+    newNode ->left = NULL;
+    newNode -> right = NULL;
+
     int count = 0;
     insert->visited = true;
+    newNode->visited = true;
+
     // merger must contain insert!!
-    pennant merger(insert);
+    pennant* merger = new pennant(newNode);
+
+    if(data.size() == 0){
+        pennant* newPennant = NULL;
+        data.insert(data.end(),newPennant);
+    }
+
     while (data[count] != NULL){
         merger = merger.pennantUnion(merger,*data[count]);
         data[count] = NULL;
         count++;
+
+        if(count >= data.size()){
+        pennant* newPennant = new pennant;
+        data.insert(data.end(),newPennant);
     }
+
+    }
+
     size++;
-    *(data[count]) = merger;
-}
+    (data[count]) = &merger;
+
+
+    std::cout << "completed" ;
+     }
 
 
 bag bag::bagUnion(bag S1, bag S2) {
-    pennant y;
+   /* pennant y;
     for (std::vector<pennant*>::size_type k = 0; k != S1.data.size(); k++){
         FA( *S1.data[k], *S2.data[k], y );
     }
     size = S1.size + S2.size;
-}
+*/
+    }
 
 node bag::getItem(int index){
     {
