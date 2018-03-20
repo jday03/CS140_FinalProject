@@ -2,10 +2,18 @@
 // Created by jday on 3/12/18.
 //
 
+#include <cmath>
 #include "bag.h"
 #include "pennant.h"
 bag::bag(){
     size = 0;
+
+}
+
+bag::~bag(){
+    for(int count = 0; count < data.size(); ++ count){
+        data[count] = nullptr;
+    }
 
 }
 bag bag::bagSplit() {
@@ -40,9 +48,11 @@ bag bag::bagSplit() {
 }
 
 
-void bag::insertNode(node insert) {
+void bag::insertNode(node* insert) {
+    insert ->left = nullptr;
+    insert -> right = nullptr;
     int count = 0;
-    insert.visited = true;
+    insert->visited = true;
     // merger must contain insert!!
     pennant merger(insert);
     while (data[count] != nullptr){
@@ -63,9 +73,9 @@ bag bag::bagUnion(bag S1, bag S2) {
     size = S1.size + S2.size;
 }
 
-getItem(int index){
+node bag::getItem(int index){
     {
-    node* current;
+    pennant* current;
 
     for(int count = 0; count < data.size();++count){
     current = data[count];
@@ -74,7 +84,7 @@ getItem(int index){
             index = index - pow(count,2);
         }
         else {
-        return current.getIndex(index);
+        return current->getIndex(index);
         }
     }
 
@@ -83,7 +93,8 @@ getItem(int index){
 
     }
 }
-void FA(pennant&  S1_k, pennant& S2_k, pennant& y){
+
+void bag::FA(pennant&  S1_k, pennant& S2_k, pennant& y){
     int value = 0;
     if( S1_k.root != nullptr)
         value += 1;

@@ -14,13 +14,16 @@ public:
     bag();
     std::vector <pennant*> data;
     bag bagSplit();
-    void insertPennant(pennant insert);
-    void insertNode(node insert);
+    void insertPennant(pennant* insert);
+    void insertNode(node* insert);
     bag bagUnion( bag S1, bag S2);
     node getNode(int index);
-    void FA(pennant & S1_k, pennant & S2_k, pennant );
+    void FA(pennant & S1_k, pennant & S2_k, pennant y);
     node getItem(int index);
     int size;
+    bool isEmpty(){
+        return size == 0;
+    }
 
-
+    ~bag();
     };

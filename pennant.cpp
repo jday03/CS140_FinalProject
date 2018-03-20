@@ -9,8 +9,8 @@ pennant:: pennant(){
 
 // Makes the left branch of root rootStart. Useful when initializing the pennant with a node.
 // Assumed that the node has no children.
-pennant:: pennant(node rootStart){
-    root->left = rootStart;
+pennant:: pennant(node* rootStart){
+    (root->left) = rootStart;
     size = 1;
 }
 
@@ -36,60 +36,50 @@ pennant pennant::pennantSplit() {
     y.root = root->left;
     root->left = y.root->right;
     y.root->right = nullptr;
-    y.size = x.size /2;
-    x.size = y.size;
+    y.size = size /2;
+    size = y.size;
     return y;
 }
 
-node pennant::getRoot() {
-    return *root;
+node* pennant::getRoot() {
+    return root;
 }
 
-node getIndex(int index){
-    if(index == 0){
-    return root->left;
+node pennant::getIndex(int index) {
+    if (index == 0) {
+        return *(root->left);
+    } else if (index == 1) {
+        return *(root->left->left);
     }
-    else if (index == 1){
-        return root->left->left;
-    }
 
-int sizeOfRemainingTree = size;
-int actualRemainingElements = size -1;
-node * parser = root->left->left;
+    int sizeOfRemainingTree = size;
+    int actualRemainingElements = size - 1;
+    node *parser = root->left->left;
 
 
-int currentIndex = 1;
-do {
-    actualRemainingElements--;
-    if (index > currentIndex + sizeOfRemainingTree /2 ){
+    int currentIndex = 1;
+    do {
+        actualRemainingElements--;
+        if (index > currentIndex + sizeOfRemainingTree / 2) {
             parser = parser->left;
-            currentIndex = currentIndex + sizeOfRemainingTree/2 + 1;
-            sizeOfRemainingTree = sizeOfRemainingTree/2;
+            currentIndex = currentIndex + sizeOfRemainingTree / 2 + 1;
+            sizeOfRemainingTree = sizeOfRemainingTree / 2;
         } else {
-            parser = parser -> right;
+            parser = parser->right;
             currentIndex++;
             sizeOfRemainingTree = sizeOfRemainingTree / 2;
         }
-} while(index != currentIndex);
+    } while (index != currentIndex);
 
-return *parser;
-
-}
-
-node getIndex(int index, int sizeOfRemainingTree, node * parser){
-    if(index <= 1){
-        return root;
-    }
-    node * parser = root -> left
-    if (index > sizeOfRemainingTree /2 + 1){
-        parser = parser->left;
-    } else {
-        parser = parser -> right;
-        return getIndex(index, sizeOfRemainingTree/2, parser);
-    }
+    return *parser;
 
 }
 
+pennant::~pennant() {
+    root->left = nullptr;
+    root->right = nullptr;
+    delete root;
+}
 
 
 
