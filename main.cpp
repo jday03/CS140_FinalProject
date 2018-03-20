@@ -68,28 +68,26 @@ struct BagMonoid : public cilk::monoid_base<bag, BagView> {
 
 
 void insertEdge(std::vector<node> &graph, int to, int from ){
-    while(to > graph.size()){
-        if(to == 0){
-            node newNode(0);
-        }
-        node newNode(graph.size()+1);
-        graph.insert(graph.end(),newNode);
-        std::cout<< newNode.number << std::endl;
-
-    }
-
-    while(from > graph.size()){
+    while(to >= graph.size()){
         node newNode(graph.size());
         graph.insert(graph.end(),newNode);
 
     }
-/*
+
+    while(from >= graph.size()){
+        node newNode(graph.size());
+        graph.insert(graph.end(),newNode);
+
+    }
+
     node* first = &graph[to];
     node* second = &graph[from];
     (first->adjacencies).insert(first->adjacencies.end(),second );
     second->adjacencies.insert(second->adjacencies.end(), first);
-*/
- }
+
+    std::cout<< first->adjacencies[0]->number << " " << second->adjacencies[0]->number << std::endl;
+
+}
 
 
 
@@ -195,20 +193,20 @@ int main(int argc, char **argv) {
         //add vertexes to graph
         insertEdge(graph,temp2,temp1);
     }
-/*
+
     std::map<int, std::vector<int> > depthMap;
 
     srand(time(NULL));
     t1 = example_get_time();
-
-    depthMap = BFS(graph, *Bag.data[0]->root);
+    node * ptr = Bag.data[0]->root;
+    depthMap = BFS(graph,*ptr );
 
     t2 = example_get_time();
     printDepthCounter(depthMap);
 
     std::cout << "Time: " << t2 - t1 << std::endl;
     return 0;
-*/
+
 
 }
 
