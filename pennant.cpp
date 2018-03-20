@@ -82,20 +82,20 @@ node pennant::getIndex(int index) {
 pennant::~pennant() {
     node * spot = root;
 
-    if(!spot->left)
+    if(spot->left != NULL)
             deleteBelowLeft(spot);
 
-    if(!spot->right)
+    if(spot->right != NULL)
         deleteBelowRight(spot);
     delete root;
 }
 
 void pennant::deleteBelowLeft(node* spot){
 
-    if(!spot->left)
+    if(spot->left != NULL)
         deleteBelowLeft(spot->left);
 
-    if(!spot->right)
+    if(spot->right != NULL)
         deleteBelowRight(spot->right);
     delete spot;
 }
@@ -103,10 +103,10 @@ void pennant::deleteBelowLeft(node* spot){
 
 void pennant::deleteBelowRight(node* spot){
 
-    if(!spot->left)
+    if(spot->left != NULL)
         deleteBelowLeft(spot->left);
 
-    if(!spot->right)
+    if(spot->right != NULL)
         deleteBelowRight(spot->right);
     delete spot;
 }
