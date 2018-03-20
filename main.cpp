@@ -141,22 +141,37 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     ptr->depth = 0;
     bag frontier;
     frontier.insertNode(ptr);
-  /*  frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
     frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
+    frontier.insertNode(ptr);
+    std::cout << "size is: " << frontier.size << std::endl;
 
-    bag frontier2;
+   /* bag frontier2;
     frontier2.insertNode(ptr->adjacencies[0]);
     frontier2.insertNode(ptr->adjacencies[0]);
     frontier2.insertNode(ptr->adjacencies[0]);
@@ -168,12 +183,12 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     frontier2.insertNode(ptr->adjacencies[0]);
     frontier2.insertNode(ptr->adjacencies[0]);
     frontier2.insertNode(ptr->adjacencies[0]);
+*/
+    //frontier = frontier.bagUnion(frontier,frontier2);
+    int depthCounter = 0;
 
-    frontier = frontier.bagUnion(frontier,frontier2);
-*/    int depthCounter = 0;
 
-
-
+/*
     while ( ! frontier.isEmpty() )
     {
         depthCounter++;
@@ -181,6 +196,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     bag newFrontier;
         for (int i=0; i< frontier.size; i++){
             std::vector<node*> adjacents = frontier.getItem(i).getAdjacents();
+            std::cout<< adjacents.size() << std::endl;
             for (int adjCount = 0; adjCount < adjacents.size(); ++ adjCount) {
                 if (adjacents[adjCount]->visited == false) {
                     adjacents[adjCount]->depth = depthCounter;
@@ -195,7 +211,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     }
 
     manageDepthCounter(depthCounter,graph,depthMap);
-
+*/
     return depthMap;
 
 }
@@ -246,7 +262,7 @@ int main(int argc, char **argv) {
      depthMap = BFS(graph,ptr );
 
    // t2 = example_get_time();
-    printDepthCounter(depthMap);
+  // printDepthCounter(depthMap);
 
    // std::cout << "Time: " << t2 - t1 << std::endl;
     return 0;

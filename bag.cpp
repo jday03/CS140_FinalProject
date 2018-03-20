@@ -87,7 +87,6 @@ void bag::insertNode(node* insert) {
     int count = 0;
     insert->visited = true;
     newNode->visited = true;
-
     // merger must contain insert!!
     pennant* merger = new pennant(newNode);
 
@@ -110,11 +109,8 @@ void bag::insertNode(node* insert) {
 
     size++;
     (data[count]) = merger;
+    std::cout << "Got this far" << std::endl;
 
-
-    std::cout << "completed" ;
-    newNode = NULL;
-    merger = NULL;
 }
 
 
