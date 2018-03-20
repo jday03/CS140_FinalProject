@@ -25,11 +25,17 @@ public:
     void add_value(node* x) {
         item.insertNode(x);
     }
-    bag get_value() const { return item; }
 
+    bag get_value() const {
+        return item; }
+
+    bag view_get_value () const{
+        return item;
+
+    }
 
 };
- 
+
 
 // Monoid class.
 
@@ -37,9 +43,9 @@ struct BagMonoid : public cilk::monoid_base<bag, BagView> {
 
 
     // Set *view to the empty list.
-    //
+    // Default values
+
     static void identity(BagView* view) {
-// Default values
         if(view == NULL){
             view = new BagView;
         }
@@ -49,6 +55,8 @@ struct BagMonoid : public cilk::monoid_base<bag, BagView> {
     // Move the right list to the beginning of the left list.
     // Leave the right list empty.
     //
+
+
     static void reduce(BagView* left, BagView* right) {
         left->item.bagUnion(left->item,right->item);
     }
@@ -107,7 +115,7 @@ void printDepthCounter(std::map<int, std::vector<int> > depthMap ){
 
 
 
-/*void BFS(std::vector<node> graph, node root)
+//void BFS(std::vector<node> graph, node root)
 std::map<int, std::vector<int> > BFS(std::vector<node> graph, node root)
 {
     root.visited = true;
@@ -123,13 +131,12 @@ std::map<int, std::vector<int> > BFS(std::vector<node> graph, node root)
         cilk::reducer<BagMonoid> succbag;
 
         frontier.size = 4;
-        cilk::reducer<BagMonoid> succbag;
         cilk_for (int i=0; i< frontier.size; i++){
             std::vector<node*> adjacents = frontier.getItem(i).getAdjacents();
             for (int adjCount = 0; adjCount < adjacents.size(); ++ adjCount) {
                 if (adjacents[adjCount]->visited == false) {
                     adjacents[adjCount]->depth = depthCounter;
-                    succbag.view().add_value (adjacents[adjCount]);
+                    succbag->add_value (adjacents[adjCount]);
                 }
             }
 
@@ -142,7 +149,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node> graph, node root)
     return depthMap;
 }
 
-*/
+
 
 
 
