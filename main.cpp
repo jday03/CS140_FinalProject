@@ -1,16 +1,16 @@
 #include <iostream>
-#include<cilk/hyperobject_base.h>
+//#include<cilk/hyperobject_base.h>
 #include <vector>
 #include <map>
-#include <cilk/reducer.h>
-#include <cilk/cilk.h>
+//#include <cilk/reducer.h>
+//#include <cilk/cilk.h>
 #include "pennant.h"
 #include "bag.h"
 #include <fstream>
 #include <numeric>
 #include <cmath>
 #include "example_util_gettime.h"
-
+/*
 class BagMonoid;
 
 // forward declaration
@@ -66,7 +66,7 @@ struct BagMonoid : public cilk::monoid_base<bag, BagView> {
 
 
 
-
+*/
 void insertEdge(std::vector<node*> &graph, int to, int from ){
     while(to >= graph.size()){
         node* newNode = new node(graph.size());
@@ -94,7 +94,7 @@ void insertEdge(std::vector<node*> &graph, int to, int from ){
 
 
 
-void manageDepthCounter(int depthCount, std::vector <node*> graph,std::map < int, std::vector < int > > depthMap){
+void manageDepthCounter(int depthCount, std::vector <node*> graph,std::map < int, std::vector < int > >& depthMap){
     for(int count = 0; count <= depthCount; ++count){
         std::vector<int> values;
         std::pair <int,std::vector<int> > newDepth (count,values);
@@ -117,12 +117,13 @@ void printDepthCounter(std::map<int, std::vector<int> > depthMap ){
     std::map<int, std::vector<int> >::iterator iter = depthMap.begin();
 
     while (iter != depthMap.end()){
-        std::cout<< "Nodes at depth: ";
+        std::cout<< "Nodes at depth" << iter->first << ": ";
         for(int count = 0; count < iter->second.size();++count){
-            std::cout<< " " << (iter->second[count]) << " ,";
+            std::cout<< " " << (iter->second[count]) << " ";
 
         }
         std::cout << std::endl;
+        iter++;
     }
 
 }
@@ -131,40 +132,70 @@ void printDepthCounter(std::map<int, std::vector<int> > depthMap ){
 
 
 
-std::map<int, std::vector<int> > BFS(node* root)
+std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
 {
     std::map<int, std::vector<int> > depthMap;
   std::cout << "hello";
     root->visited = true;
     node* ptr = root;
+    ptr->depth = 0;
     bag frontier;
     frontier.insertNode(ptr);
-   frontier.insertNode(ptr->adjacencies[0]);
-    std::cout << "size is: " << frontier.size;
-    int depthCounter = -1;
-/*
+  /*  frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+
+    bag frontier2;
+    frontier2.insertNode(ptr->adjacencies[0]);
+    frontier2.insertNode(ptr->adjacencies[0]);
+    frontier2.insertNode(ptr->adjacencies[0]);
+    frontier2.insertNode(ptr->adjacencies[0]);
+    frontier2.insertNode(ptr->adjacencies[0]);
+    frontier2.insertNode(ptr->adjacencies[0]);
+    frontier2.insertNode(ptr->adjacencies[0]);
+    frontier2.insertNode(ptr->adjacencies[0]);
+    frontier2.insertNode(ptr->adjacencies[0]);
+    frontier2.insertNode(ptr->adjacencies[0]);
+    frontier2.insertNode(ptr->adjacencies[0]);
+
+    frontier = frontier.bagUnion(frontier,frontier2);
+*/    int depthCounter = 0;
+
+
+
     while ( ! frontier.isEmpty() )
     {
         depthCounter++;
-        cilk::reducer<BagMonoid> succbag;
-
-        frontier.size = 4;
-        cilk_for (int i=0; i< frontier.size; i++){
+//        cilk::reducer<BagMonoid> succbag;
+    bag newFrontier;
+        for (int i=0; i< frontier.size; i++){
             std::vector<node*> adjacents = frontier.getItem(i).getAdjacents();
             for (int adjCount = 0; adjCount < adjacents.size(); ++ adjCount) {
                 if (adjacents[adjCount]->visited == false) {
                     adjacents[adjCount]->depth = depthCounter;
-                    succbag->add_value (adjacents[adjCount]);
+                    newFrontier.insertNode(adjacents[adjCount]);
+                    //succbag->add_value (adjacents[adjCount]);
                 }
             }
 
         }
-        frontier = succbag.get_value();
-
+        //frontier = succbag.get_value();
+        frontier = newFrontier;
     }
 
     manageDepthCounter(depthCounter,graph,depthMap);
-    */
+
     return depthMap;
 
 }
@@ -212,10 +243,10 @@ int main(int argc, char **argv) {
     //srand(time(NULL));
    // t1 = example_get_time();
     node * ptr = graph[1];
-     BFS(ptr );
+     depthMap = BFS(graph,ptr );
 
    // t2 = example_get_time();
-    //printDepthCounter(depthMap);
+    printDepthCounter(depthMap);
 
    // std::cout << "Time: " << t2 - t1 << std::endl;
     return 0;

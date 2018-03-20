@@ -31,6 +31,17 @@ struct node
 
     }
 
+
+    node(const node& copy){
+            number = copy.number;
+            visited = copy.visited;
+            depth = copy.depth;
+            adjacencies = copy.adjacencies;
+
+        }
+
+
+
     std::vector<node*> adjacencies;
     void addAdjacency(node* adjacentNode){
         adjacencies.insert(adjacencies.end(),adjacentNode);
@@ -47,7 +58,6 @@ public:
     pennant();
     ~pennant();
     pennant(node* rootStart);
-    static pennant pennantUnion(pennant x, pennant y);
     pennant pennantSplit(pennant& x);
     pennant pennantSplit();
     node* getRoot();
@@ -55,6 +65,11 @@ public:
     node *root;
     int size;
 
+static pennant *pennantUnion(pennant *x, pennant *y);
+
+    void deleteBelowLeft(node *spot);
+
+    void deleteBelowRight(node *spot);
 };
 
 

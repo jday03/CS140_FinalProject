@@ -12,7 +12,9 @@ using namespace std;
 
     class bag{
     public:
-    std::vector <pennant*> data;
+        bag(const bag &other);
+
+        std::vector <pennant*> data;
     int size;
 
     bag();
@@ -25,8 +27,14 @@ using namespace std;
     bool isEmpty(){
         return size == 0;
     }
+        void eraseAll();
 
-    ~bag();
+        bag& operator=(const bag& other);
+
+
+            ~bag();
+
+        void FA(pennant *S1_k, pennant *S2_k, pennant *y);
     };
 
 #endif

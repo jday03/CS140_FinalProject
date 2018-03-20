@@ -15,15 +15,15 @@ pennant:: pennant(node* rootStart){
     size = 1;
 }
 
-pennant pennant::pennantUnion(pennant x, pennant y){
-    if(x.size ==1 && y.size == 1){
-        x.size++;
-        x.root->left = y.root;
+pennant* pennant::pennantUnion(pennant* x, pennant* y){
+    if(x->size ==1 && y->size == 1){
+        x->size++;
+        x->root->left = y->root;
 
     } else{
-    x.size = x.size + y.size;
-    y.root->right = x.root->left;
-    x.root->left = y.root;}
+    x->size = x->size + y->size;
+    y->root->right = x->root->left;
+    x->root->left = y->root;}
     return x;
 }
 
@@ -53,19 +53,18 @@ node* pennant::getRoot() {
 
 node pennant::getIndex(int index) {
     if (index == 0) {
-        return *(root->left);
+        return *(root);
     } else if (index == 1) {
-        return *(root->left->left);
+        return *(root->left);
     }
 
-    int sizeOfRemainingTree = size;
-    int actualRemainingElements = size - 1;
-    node *parser = root->left->left;
+    int sizeOfRemainingTree = size-1;
+    node *parser = root->left;
 
 
     int currentIndex = 1;
     do {
-        actualRemainingElements--;
+        sizeOfRemainingTree--;
         if (index > currentIndex + sizeOfRemainingTree / 2) {
             parser = parser->left;
             currentIndex = currentIndex + sizeOfRemainingTree / 2 + 1;
@@ -80,11 +79,34 @@ node pennant::getIndex(int index) {
     return *parser;
 
 }
-
 pennant::~pennant() {
-    delete root;
+    node * spot = root;
 
+    if(!spot->left)
+            deleteBelowLeft(spot);
+
+    if(!spot->right)
+        deleteBelowRight(spot);
+    delete root;
+}
+
+void pennant::deleteBelowLeft(node* spot){
+
+    if(!spot->left)
+        deleteBelowLeft(spot->left);
+
+    if(!spot->right)
+        deleteBelowRight(spot->right);
+    delete spot;
 }
 
 
+void pennant::deleteBelowRight(node* spot){
 
+    if(!spot->left)
+        deleteBelowLeft(spot->left);
+
+    if(!spot->right)
+        deleteBelowRight(spot->right);
+    delete spot;
+}
