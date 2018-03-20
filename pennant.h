@@ -20,7 +20,7 @@ struct node
         adjacencies.insert(adjacencies.end(),adjacentNode);
     }
 
-    std::vector<node*> getAdjacencies(){
+    std::vector<node*> getAdjacents(){
         return adjacencies;
     }
 
