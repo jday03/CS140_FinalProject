@@ -119,7 +119,7 @@ void bag::insertNode(node* insert) {
 bag bag::bagUnion(bag S1, bag S2) {
     pennant *y = new pennant;
     delete y->root;
-    y->root =NULL;
+    y =NULL;
     int S1_size = S1.data.size();
     int S2_size = S2.data.size();
     int max = 0;
@@ -133,7 +133,10 @@ bag bag::bagUnion(bag S1, bag S2) {
         pennant *empty = new pennant;
         delete empty->root;
         empty->root =NULL;
-        if(k >= S1_size){
+        if (k == max){
+            FA(S1.data[k], empty, y);
+        }
+        else if(k >= S1_size){
             FA(empty, S2.data[k], y);
         }
 
@@ -186,48 +189,64 @@ void bag::eraseAll() {
 
 void bag::FA(pennant*  S1_k, pennant* S2_k, pennant* y){
     int value = 0;
-    if( S1_k->root != NULL)
+    if( S1_k != NULL)
         value += 1;
-    if( S2_k->root != NULL)
+    if( S2_k != NULL)
         value += 10;
-    if( y->root != NULL)
+    if( y != NULL)
         value += 100;
     //(x,y,z)
     switch(value){
         case 0 : // 0,0,0
+            S1_k = new pennant;
+
+            S2_k = new pennant;
+            y  = new pennant;
+
             S1_k->root = NULL;
             S2_k->size = 0;
             y->root = NULL;
             y->size = 0;
             break;
         case 1 : // 1,0,0
+            y  = new pennant;
             S1_k->root = S1_k->root;
             y->root = NULL;
             y->size = 0;
             break;
         case 10 : //0,1,0
+            S1_k  = new pennant;
+            y  = new pennant;
+
             S1_k->root = S2_k->root;
             y->root = NULL;
             y->size = 0;
             break;
         case 100: //0,0,1
+            S1_k = new pennant;
+            y  = new pennant;
             S1_k->root = y->root;
             y->root = NULL;
             y->size = 0;
             break;
         case 11 : // 1,1,0
-
+            y = new pennant;
             y->root = pennant::pennantUnion(S1_k, S2_k)->root;
             S1_k->root = NULL;
             S1_k->size = 0;
             break;
         case 101 : // 1,0,1
+            y = new pennant;
+
             y->root = pennant::pennantUnion(S1_k, y)->root;
             S1_k->root = NULL;
             S1_k->size = 0;
 
             break;
         case 110 : // 0,1,1
+            y = new pennant;
+            S1_k = new pennant;
+
             y->root = pennant::pennantUnion(S2_k, y)->root;
             S1_k->root = NULL;
             S1_k->size = 0;
