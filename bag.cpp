@@ -68,7 +68,7 @@ void bag::insertNode(node* insert) {
 bag bag::bagUnion(bag S1, bag S2) {
     pennant y;
     for (std::vector<pennant*>::size_type k = 0; k != S1.data.size(); k++){
-        FA( S1.data[k], y );
+        FA( *S1.data[k], *S2.data[k], y );
     }
     size = S1.size + S2.size;
 }
