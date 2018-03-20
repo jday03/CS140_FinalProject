@@ -111,7 +111,7 @@ void bag::insertNode(node* insert) {
     size++;
     (data[count]) = merger;
     delete newNode;
-    delete merger;
+    //delete merger;
 
 }
 
