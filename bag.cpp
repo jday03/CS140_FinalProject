@@ -134,6 +134,7 @@ bag bag::bagUnion(bag S1, bag S2) {
         if(k >= S1_size){
             FA(empty, S2.data[k], y);
         }
+
         else if(k >= S2_size){
             FA(S1.data[k], empty, y);
 
