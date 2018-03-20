@@ -142,13 +142,8 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     frontier.insertNode(ptr);
 
 
-    bag frontier2;
-    frontier2.insertNode(ptr->adjacencies[0]);
-
-    frontier = frontier.bagUnion(frontier,frontier2);
+      // frontier = frontier.bagUnion(frontier,frontier2);
     int depthCounter = 0;
-
-
 
     while ( ! frontier.isEmpty() )
     {
@@ -196,31 +191,24 @@ int main(int argc, char **argv) {
 
     std::ifstream inFile;
     inFile.open(argv[1]);
-    if (!inFile) {
-        cerr << "Unable to open file datafile.txt";
-        exit(1);   // call system to stop
-    }
 
     int temp1,  temp2;
-    while(inFile >> temp1){
+    while(inFile.good()){
+        inFile>>temp1;
         inFile>>temp2;
-       // std::cout << "temp1:" << temp1 << " temp2: " << temp2 << std::endl;
+        //temp2 = inFile.get();
+        //add vertexes to graph
+       // std::cout << "1:" << temp1 << " 2: " << temp2 << std::endl;
         insertEdge(graph,temp1,temp2);
-        //std::cout << "graph.size = " << graph.size() <<std::endl;
-
     }
-    inFile.close();
-    std::cout << "graph.size = " << graph.size() << std::endl;
-    //std::cout << "v 2 num: " << graph[2]->number << std::endl;
-    //std::cout << "v 2 adj1: " << graph[2]->adjacencies[0]->number<< std::endl;
+
+    std::cout << "v 2 num: " << graph[2]->number << std::endl;
+    std::cout << "v 2 adj1: " << graph[2]->adjacencies[0]->number<< std::endl;
 
     for(int i = 1; i < graph.size(); ++i){
-        for(int j = 0 ; j < graph[i]->adjacencies.size(); j++) {
-
-
-            std::cout << i  << " adjacent to  " << graph[i]->adjacencies[j]->number << std::endl;
-        }
+        std::cout << i << ": " << graph[9]->adjacencies[0]->number << std::endl;
     }
+
 
     std::map<int, std::vector<int> > depthMap;
 
