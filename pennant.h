@@ -28,7 +28,6 @@ struct node
         visited = copy->visited;
         depth = copy->depth;
         adjacencies = copy->adjacencies;
-
     }
 
 

@@ -140,21 +140,43 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     ptr->depth = 0;
     bag frontier;
     frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+    frontier.insertNode(ptr);
+
 
     bag frontier2;
     frontier2.insertNode(ptr);
+    frontier2.insertNode(ptr);
+    frontier2.insertNode(ptr);
+    frontier2.insertNode(ptr);
 
-    frontier = frontier.bagUnion(frontier,frontier2);
+    frontier.bagUnion(frontier,frontier2);
+
     int depthCounter = 0;
-
+/*
     while ( ! frontier.isEmpty() )
     {
         depthCounter++;
-//        cilk::reducer<BagMonoid> succbag;
+//      cilk::reducer<BagMonoid> succbag;
     bag newFrontier;
         for (int i=0; i< frontier.size; i++){
             std::vector<node*> adjacents = frontier.getItem(i).getAdjacents();
-            std::cout<< adjacents.size() << std::endl;
+            //std::cout<< adjacents.size() << std::endl;
             for (int adjCount = 0; adjCount < adjacents.size(); ++ adjCount) {
                 if (adjacents[adjCount]->visited == false) {
                     adjacents[adjCount]->depth = depthCounter;
@@ -169,7 +191,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     }
 
     manageDepthCounter(depthCounter,graph,depthMap);
-
+*/
     return depthMap;
 
 }
@@ -200,29 +222,26 @@ int main(int argc, char **argv) {
         inFile>>temp2;
         //temp2 = inFile.get();
         //add vertexes to graph
-       // std::cout << "1:" << temp1 << " 2: " << temp2 << std::endl;
         insertEdge(graph,temp1,temp2);
     }
 
-    std::cout << "v 2 num: " << graph[2]->number << std::endl;
-    std::cout << "v 2 adj1: " << graph[2]->adjacencies[0]->number<< std::endl;
 
     for(int i = 1; i < graph.size(); ++i){
-        std::cout << i << ": " << graph[9]->adjacencies[0]->number << std::endl;
+      //  std::cout <<  graph[9]->adjacencies[0]->number << std::endl;
     }
 
 
     std::map<int, std::vector<int> > depthMap;
 
-    //srand(time(NULL));
-   // t1 = example_get_time();
+    srand(time(NULL));
+  //  t1 = example_get_time();
     node * ptr = graph[1];
      depthMap = BFS(graph,ptr );
 
-   // t2 = example_get_time();
+  //  t2 = example_get_time();
   printDepthCounter(depthMap);
 
-   // std::cout << "Time: " << t2 - t1 << std::endl;
+    std::cout << "Time: " << t2 - t1 << std::endl;
     return 0;
 
 

@@ -21,8 +21,7 @@ using namespace std;
     bag bagSplit();
     void insertPennant(pennant* insert);
     void insertNode(node* insert);
-    bag bagUnion( bag S1, bag S2);
-    void FA(pennant&  S1_k, pennant& S2_k, pennant& y);
+    bag bagUnion( bag& S1, bag& S2);
     node getItem(int index);
     bool isEmpty(){
         return size == 0;
@@ -34,7 +33,8 @@ using namespace std;
 
             ~bag();
 
-        void FA(pennant *S1_k, pennant *S2_k, pennant *y);
+
+        pennant* FA(pennant *S1_k, pennant *S2_k, pennant *&y);
     };
 
 #endif

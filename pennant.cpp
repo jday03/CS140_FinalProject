@@ -80,12 +80,14 @@ node pennant::getIndex(int index) {
     return *parser;
 
 }
+
+
 pennant::~pennant() {
     int layers = log2(size);
     node* ptr = root;
     if(layers >= 1)
-    deleteBelowLeft(ptr->left,layers);
-
+    deleteBelowLeft(ptr->left,layers-1);
+    delete ptr;
 }
 
 void pennant::deleteBelowLeft(node* spot, int layersLeft){
