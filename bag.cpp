@@ -4,7 +4,10 @@
 
 #include <cmath>
 #include "bag.h"
+#include <map>
+#include <vector>
 #include "pennant.h"
+
 bag::bag(){
     size = 0;
 
@@ -12,7 +15,7 @@ bag::bag(){
 
 bag::~bag(){
     for(int count = 0; count < data.size(); ++ count){
-        data[count] = nullptr;
+        data[count] = NULL;
     }
 
 }
@@ -23,10 +26,10 @@ bag bag::bagSplit() {
     returnBag.data.insert(returnBag.data.end(),newPennant1 );
 
     pennant * first= data[0];
-    data[0] = nullptr;
+    data[0] = NULL;
 
     for( int i = 1; i < data.size(); ++i){
-        if(data[i] != nullptr) {
+        if(data[i] != NULL) {
             if (i >= returnBag.data.size()) {
                 pennant * newPennant;
                 returnBag.data.insert(returnBag.data.end(),newPennant );
@@ -34,13 +37,13 @@ bag bag::bagSplit() {
             pennant penn = data[i]->pennantSplit();
             *(returnBag.data[i - 1]) = penn;
             data[i - 1] = data[i];
-            data[i] = nullptr;
+            data[i] = NULL;
         }
 
         }
 
 
-    if(first != nullptr){
+    if(first != NULL){
         insertNode(first->getRoot()); //BAG INSERT FIRST
     }
 
@@ -49,15 +52,15 @@ bag bag::bagSplit() {
 
 
 void bag::insertNode(node* insert) {
-    insert ->left = nullptr;
-    insert -> right = nullptr;
+    insert ->left = NULL;
+    insert -> right = NULL;
     int count = 0;
     insert->visited = true;
     // merger must contain insert!!
     pennant merger(insert);
-    while (data[count] != nullptr){
+    while (data[count] != NULL){
         merger = merger.pennantUnion(merger,*data[count]);
-        data[count] = nullptr;
+        data[count] = NULL;
         count++;
     }
     size++;
@@ -79,7 +82,7 @@ node bag::getItem(int index){
 
     for(int count = 0; count < data.size();++count){
     current = data[count];
-    if(current != nullptr){
+    if(current != NULL){
         if(index >= pow(count,2)){
             index = index - pow(count,2);
         }
@@ -96,40 +99,40 @@ node bag::getItem(int index){
 
 void bag::FA(pennant&  S1_k, pennant& S2_k, pennant& y){
     int value = 0;
-    if( S1_k.root != nullptr)
+    if( S1_k.root != NULL)
         value += 1;
-    if( S2_k.root != nullptr)
+    if( S2_k.root != NULL)
         value += 10;
-    if( y.root != nullptr)
+    if( y.root != NULL)
         value += 100;
     //(x,y,z)
     switch(value){
         case 0 : // 0,0,0
-            S1_k.root = nullptr;
-            y.root = nullptr;
+            S1_k.root = NULL;
+            y.root = NULL;
             break;
         case 1 : // 1,0,0
             S1_k.root = S1_k.root;
-            y.root = nullptr;
+            y.root = NULL;
             break;
         case 10 : //0,1,0
             S1_k.root = S2_k.root;
-            y.root = nullptr;
+            y.root = NULL;
             break;
         case 100: //0,0,1
             S1_k.root = y.root;
-            y.root = nullptr;
+            y.root = NULL;
             break;
         case 11 : // 1,1,0
-            S1_k.root = nullptr;
+            S1_k.root = NULL;
             y.root = pennant::pennantUnion(S1_k, S2_k).root;
             break;
         case 101 : // 1,0,1
-            S1_k.root = nullptr;
+            S1_k.root = NULL;
             y.root = pennant::pennantUnion(S1_k, y).root;
             break;
         case 110 : // 0,1,1
-            S1_k.root = nullptr;
+            S1_k.root = NULL;
             y.root = pennant::pennantUnion(S2_k, y).root;
             break;
         case 111 : // 1,1,1

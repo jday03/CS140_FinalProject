@@ -1,7 +1,10 @@
 
 
+#include <map>
 #include <vector>
 
+#ifndef PENNANT_H
+#define PENNANT_H
 struct node
 {
     int number;
@@ -30,7 +33,7 @@ class pennant {
 public:
     pennant();
     ~pennant();
-    pennant:: pennant(node* rootStart);
+    pennant(node* rootStart);
     static pennant pennantUnion(pennant x, pennant y);
     pennant pennantSplit(pennant& x);
     pennant pennantSplit();
@@ -42,3 +45,4 @@ public:
 };
 
 
+#endif

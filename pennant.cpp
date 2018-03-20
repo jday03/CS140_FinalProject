@@ -3,7 +3,7 @@
 #include "pennant.h"
 
 pennant:: pennant(){
-    root = nullptr;
+    root = NULL;
 }
 
 
@@ -25,7 +25,7 @@ pennant pennant::pennantSplit(pennant& x) {
     pennant y ;
     y.root = x.root->left;
     x.root->left = y.root->right;
-    y.root->right = nullptr;
+    y.root->right = NULL;
     x.size = x.size /2;
     y.size = x.size;
     return y;
@@ -35,7 +35,7 @@ pennant pennant::pennantSplit() {
     pennant y ;
     y.root = root->left;
     root->left = y.root->right;
-    y.root->right = nullptr;
+    y.root->right = NULL;
     y.size = size /2;
     size = y.size;
     return y;
@@ -76,8 +76,8 @@ node pennant::getIndex(int index) {
 }
 
 pennant::~pennant() {
-    root->left = nullptr;
-    root->right = nullptr;
+    root->left = NULL;
+    root->right = NULL;
     delete root;
 }
 

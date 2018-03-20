@@ -1,16 +1,17 @@
 //
 // Created by jday on 3/12/18.
 //
-
 #include <vector>
 #include "pennant.h"
+#ifndef BAG_H
+#define BAG_H
 
-#ifndef CS140_FINALPROJECT_BAG_H
-#define CS140_FINALPROJECT_BAG_H
+using namespace std;
 
-#endif //CS140_FINALPROJECT_BAG_H
-class bag{
-public:
+
+
+    class bag{
+    public:
     bag();
     std::vector <pennant*> data;
     bag bagSplit();
@@ -26,3 +27,5 @@ public:
 
     ~bag();
     };
+
+#endif

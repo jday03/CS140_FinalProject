@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <cilk/reducer.h>
+#include <cilk/cilk.h>
 #include "pennant.h"
 #include "bag.h"
 
@@ -28,7 +29,6 @@ public:
 
 
 // Monoid class.
-//
 
 struct BagMonoid : public cilk::monoid_base<bag, BagView> {
 
@@ -37,7 +37,7 @@ struct BagMonoid : public cilk::monoid_base<bag, BagView> {
     //
     static void identity(BagView* view) {
 // Default values
-        if(view == nullptr){
+        if(view == NULL){
             view = new BagView;
         }
 
@@ -66,17 +66,17 @@ void insertEdge(std::vector<node> graph, int to, int from ){
 
 
 
-void manageDepthCounter(int depthCount, std::vector<node> graph,std::map<int, std::vector<int>> depthMap){
+void manageDepthCounter(int depthCount, std::vector <node> graph,std::map < int, std::vector < int > > depthMap){
     for(int count = 0; count <= depthCount; ++count){
         std::vector<int> values;
-        std::pair <int,std::vector<int>> newDepth (count,values);
+        std::pair <int,std::vector<int> > newDepth (count,values);
         depthMap.insert (newDepth);
     }
 
     for(int count = 0; count < graph.size(); ++count){
         node temp = graph[count];
         if(temp.depth >= 0){
-            auto iter = depthMap.find(temp.depth);
+            std::map<int, std::vector<int> >::iterator iter = depthMap.find(temp.depth);
             iter->second.insert(iter->second.end(),temp.number);
         }
     }
@@ -85,17 +85,18 @@ void manageDepthCounter(int depthCount, std::vector<node> graph,std::map<int, st
 
 
 
-void printDepthCounter(std::map<int, std::vector<int>> depthMap ){
-    auto iter = depthMap.find(0);
+void printDepthCounter(std::map<int, std::vector<int> > depthMap ){
+    std::map<int, std::vector<int> >::iterator iter = depthMap.begin();
+
     while (iter != depthMap.end()){
-        auto vec = iter->second;
         std::cout<< "Nodes at depth: ";
-        for(int count = 0; count < vec.size();++count){
-            std::cout<< " " << vec[count] << " ,";
+        for(int count = 0; count < iter->second.size();++count){
+            std::cout<< " " << (iter->second[count]) << " ,";
 
         }
         std::cout << std::endl;
     }
+
 }
 
 
@@ -103,27 +104,27 @@ void printDepthCounter(std::map<int, std::vector<int>> depthMap ){
 
 
 
-void BFS(std::vector<node> graph, node root)
+/*void BFS(std::vector<node> graph, node root)
 {
     root.visited = true;
     node* ptr = &root;
     bag frontier;
     frontier.insertNode(ptr);
-    std::map<int, std::vector<int>> depthMap;
+    std::map<int, std::vector<int> > depthMap;
     int depthCounter = -1;
 
     while ( ! frontier.isEmpty() )
     {
         depthCounter++;
-        cilk::reducer<BagMonoid> succbag;
 
         frontier.size = 4;
-        for (int i=0; i< frontier.size; i++){
+        cilk::reducer<BagMonoid> succbag;
+        cilk_for (int i=0; i< frontier.size; i++){
             std::vector<node*> adjacents = frontier.getItem(i).getAdjacents();
             for (int adjCount = 0; adjCount < adjacents.size(); ++ adjCount) {
                 if (adjacents[adjCount]->visited == false) {
                     adjacents[adjCount]->depth = depthCounter;
-                    succbag. (adjacents[adjCount]);
+                    succbag.view().add_value (adjacents[adjCount]);
                 }
             }
 
@@ -135,7 +136,7 @@ void BFS(std::vector<node> graph, node root)
     manageDepthCounter(depthCounter,graph,depthMap);
 }
 
-
+*/
 
 
 
@@ -143,8 +144,8 @@ void BFS(std::vector<node> graph, node root)
 
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    cilk::hyperobject< Bag<int> > succbag();
+    std::cout << "Hello, BIIITCH!" << std::endl;
+    std::vector
 
 }
 
