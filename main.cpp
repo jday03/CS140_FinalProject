@@ -67,12 +67,29 @@ struct BagMonoid : public cilk::monoid_base<bag, BagView> {
 
 
 
-void insertEdge(std::vector<node> graph, int to, int from ){
+void insertEdge(std::vector<node> &graph, int to, int from ){
+    while(to > graph.size()){
+        if(to == 0){
+            node newNode(0);
+        }
+        node newNode(graph.size()+1);
+        graph.insert(graph.end(),newNode);
+        std::cout<< newNode.number << std::endl;
+
+    }
+
+    while(from > graph.size()){
+        node newNode(graph.size());
+        graph.insert(graph.end(),newNode);
+
+    }
+/*
     node* first = &graph[to];
     node* second = &graph[from];
     (first->adjacencies).insert(first->adjacencies.end(),second );
     second->adjacencies.insert(second->adjacencies.end(), first);
-}
+*/
+ }
 
 
 
@@ -168,16 +185,17 @@ int main(int argc, char **argv) {
     bag Bag;
 
     std::ifstream inFile;
-    inFile.open(argv[1], std::ifstream::in);
+    inFile.open(argv[1]);
 
     int temp1,  temp2;
     while(inFile.good()){
-        temp1 = inFile.get();
-        temp2 = inFile.get();
+        inFile>>temp1;
+        inFile>>temp2;
+        //temp2 = inFile.get();
         //add vertexes to graph
         insertEdge(graph,temp2,temp1);
     }
-
+/*
     std::map<int, std::vector<int> > depthMap;
 
     srand(time(NULL));
@@ -190,7 +208,7 @@ int main(int argc, char **argv) {
 
     std::cout << "Time: " << t2 - t1 << std::endl;
     return 0;
-
+*/
 
 }
 
