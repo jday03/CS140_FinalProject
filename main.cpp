@@ -140,35 +140,12 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     ptr->depth = 0;
     bag frontier;
     frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
-    frontier.insertNode(ptr);
 
 
-    bag frontier2;
-    frontier2.insertNode(ptr);
-    frontier2.insertNode(ptr);
-    frontier2.insertNode(ptr);
-    frontier2.insertNode(ptr);
-
-    frontier.bagUnion(frontier,frontier2);
+   // frontier.bagUnion(frontier,frontier2);
 
     int depthCounter = 0;
-/*
+
     while ( ! frontier.isEmpty() )
     {
         depthCounter++;
@@ -191,7 +168,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     }
 
     manageDepthCounter(depthCounter,graph,depthMap);
-*/
+
     return depthMap;
 
 }
