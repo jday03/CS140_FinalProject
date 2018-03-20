@@ -118,8 +118,30 @@ bag bag::bagUnion(bag S1, bag S2) {
     pennant *y = new pennant;
     delete y->root;
     y->root =NULL;
-    for (std::vector<pennant*>::size_type k = 0; k != S1.data.size(); k++){
+    int S1_size = S1.data.size();
+    int S2_size = S2.data.size();
+    int max = 0;
+
+    if(S1_size > S2_size)
+        max = S1_size;
+    else
+        max = S2_size;
+
+    for (std::vector<pennant*>::size_type k = 0; k < max; k++){
+        pennant *empty = new pennant;
+        delete empty->root;
+        empty->root =NULL;
+        if(k >= S1_size){
+            FA(empty, S2.data[k], y);
+        }
+        else if(k >= S2_size){
+            FA(S1.data[k], empty, y);
+
+        }
+        else{
         FA( S1.data[k], S2.data[k], y );
+        }
+
     }
    // size = S1.size + S2.size;
     this->size = S1.size + S2.size;
