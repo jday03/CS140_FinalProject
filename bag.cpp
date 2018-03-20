@@ -97,6 +97,7 @@ void bag::insertNode(node* insert) {
 
     while (data[count] != NULL){
         merger = pennant::pennantUnion(merger,data[count]);
+        delete (data[count]);
         data[count] = NULL;
         count++;
 
@@ -109,7 +110,8 @@ void bag::insertNode(node* insert) {
 
     size++;
     (data[count]) = merger;
-    std::cout << "Got this far" << std::endl;
+    delete newNode;
+    delete merger;
 
 }
 

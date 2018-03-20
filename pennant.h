@@ -70,6 +70,10 @@ static pennant *pennantUnion(pennant *x, pennant *y);
     void deleteBelowLeft(node *spot);
 
     void deleteBelowRight(node *spot);
+
+    void deleteBelowLeft(node *spot, int layersLeft);
+
+    void deleteBelowRight(node *pNode, int i);
 };
 
 
