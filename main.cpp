@@ -135,41 +135,11 @@ void printDepthCounter(std::map<int, std::vector<int> > depthMap ){
 std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
 {
     std::map<int, std::vector<int> > depthMap;
-  std::cout << "hello";
     root->visited = true;
     node* ptr = root;
     ptr->depth = 0;
     bag frontier;
     frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
-    frontier.insertNode(ptr);
-    std::cout << "size is: " << frontier.size << std::endl;
 
    /* bag frontier2;
     frontier2.insertNode(ptr->adjacencies[0]);
@@ -188,7 +158,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     int depthCounter = 0;
 
 
-/*
+
     while ( ! frontier.isEmpty() )
     {
         depthCounter++;
@@ -211,7 +181,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     }
 
     manageDepthCounter(depthCounter,graph,depthMap);
-*/
+
     return depthMap;
 
 }
@@ -262,7 +232,7 @@ int main(int argc, char **argv) {
      depthMap = BFS(graph,ptr );
 
    // t2 = example_get_time();
-  // printDepthCounter(depthMap);
+  printDepthCounter(depthMap);
 
    // std::cout << "Time: " << t2 - t1 << std::endl;
     return 0;

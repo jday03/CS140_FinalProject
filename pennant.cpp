@@ -1,5 +1,6 @@
 
 
+#include <cmath>
 #include "pennant.h"
 
 pennant:: pennant(){
@@ -80,33 +81,32 @@ node pennant::getIndex(int index) {
 
 }
 pennant::~pennant() {
-    node * spot = root;
+    int layers = log2(size);
+    node* ptr = root;
+    if(layers >= 1)
+    deleteBelowLeft(ptr->left,layers);
 
-    if(spot->left != NULL)
-            deleteBelowLeft(spot);
-
-    if(spot->right != NULL)
-        deleteBelowRight(spot);
-    delete root;
 }
 
-void pennant::deleteBelowLeft(node* spot){
-
-    if(spot->left != NULL)
-        deleteBelowLeft(spot->left);
-
-    if(spot->right != NULL)
-        deleteBelowRight(spot->right);
+void pennant::deleteBelowLeft(node* spot, int layersLeft){
+if(layersLeft == 0) {
     delete spot;
+}else {
+        deleteBelowLeft(spot->left,layersLeft-1);
+        deleteBelowRight(spot->right,layersLeft-1);
+        delete spot;
+    }
 }
 
 
-void pennant::deleteBelowRight(node* spot){
 
-    if(spot->left != NULL)
-        deleteBelowLeft(spot->left);
 
-    if(spot->right != NULL)
-        deleteBelowRight(spot->right);
-    delete spot;
+void pennant::deleteBelowRight(node* spot, int layersLeft){
+    if(layersLeft == 0) {
+        delete spot;
+    }else {
+        deleteBelowLeft(spot->left,layersLeft-1);
+        deleteBelowRight(spot->right,layersLeft-1);
+        delete spot;
+    }
 }
