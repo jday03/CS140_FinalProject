@@ -18,8 +18,11 @@
 
 
 
+class bagMonoid;
+
 
 class BagView {
+    friend class bagMonoid;
     bag item;
 
 public:
@@ -29,26 +32,29 @@ public:
 
     }
 
-    void reduce(BagView *right) {
-        if(right->item.size > 0){
-
-          std::cout << "I have " << item.size << std::endl;
-          this->item.bagUnion(this->item,right->item);
-           // right->item.eraseAll();
-        }
-        }
-
     void add_value(node* x) {
         item.insertNode(x);
     }
-    value_type get_value() const { return item; }
-
-    value_type view_get_value() const { return item; }
-
-
 
 };
-typedef cilk::monoid_with_view<BagView> BagMonoid;
+
+
+class bagMonoid : public cilk::monoid_base<bag, BagView> {
+
+    static void identity(BagView *view) {
+        view=new BagView;
+    }
+
+    static void reduce(value_type *left, value_type *right){
+        std::cout << "I have " << left->size << std::endl;
+        left->bagUnion(*left,*right);
+        // right->item.eraseAll();
+    }
+
+};
+
+
+//typedef cilk::monoid_with_view<BagView> BagMonoid;
 
 
 // Monoid class.
@@ -145,7 +151,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
 
     while (!frontier.isEmpty()) {
         depthCounter++;
-        cilk::reducer<BagMonoid> succbag;
+        //bag_reducer succbag;
         //bag newFrontier;
 
         bag oneBag;
@@ -153,14 +159,15 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
         bag threeBag;
 
         std::cout << "Frontier size is: " << frontier.size << std::endl;
-        cilk_for (int i = 0; i < frontier.size; i++) {
+        bag* ghettoReducer = new bag [frontier.size] ;
+        for (int i = 0; i < frontier.size; i++) {
 
             std::vector<node *> adjacents = frontier.getItem(i).getAdjacents();
             for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
                 if (!adjacents[adjCount]->visited) {
                     adjacents[adjCount]->depth = depthCounter;
-                    succbag->add_value(adjacents[adjCount]);
-
+//                    succbag.bagInsert(adjacents[adjCount]);
+                    ghettoReducer[i].insertNode(adjacents[adjCount]);
                     /*if(adjCount%3 ==1) {
                         oneBag.insertNode(adjacents[adjCount]);
                     }else {
@@ -177,11 +184,17 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
  //           frontier.bagUnion(frontier, twoBag);
            // std::cout << "loop complete" << std::endl;
         }
+        for(int i = 1; i< frontier.size; ++i){
+            ghettoReducer[0].bagUnion(ghettoReducer[0],ghettoReducer[i]);
+        }
+
         frontier.eraseAll();
+        frontier=ghettoReducer[0];
+        delete [] ghettoReducer;
         //oneBag = oneBag.bagUnion(oneBag,twoBag);
         //twoBag.eraseAll();
         //frontier = oneBag.bagUnion(oneBag,threeBag);
-        frontier = succbag.get_value();
+      // frontier = succbag.get_value();
     }
 
 

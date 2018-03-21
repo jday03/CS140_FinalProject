@@ -26,6 +26,7 @@ bag::bag(const bag &other){
 }
 
 bag& bag::operator=(const bag& other){
+    std::cout<< "equal op" << std::endl;
 //eraseAll();
     size = 0;
     for(int outerCount = 0; outerCount < other.data.size(); ++outerCount){
@@ -42,7 +43,7 @@ bag::~bag(){
     int size = data.size();
     for(int count = size - 1; count >= 0; -- count){
 
-        //delete data[count];
+        delete data[count];
         data.erase(data.begin()+count);
     }
 
