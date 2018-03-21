@@ -118,7 +118,7 @@ void bag::insertNode(node* insert) {
 
 bag bag::bagUnion(bag& S1, bag& S2) {
 
-
+std::cout<< " got here";
     pennant *y =NULL;
     int S1_size = S1.data.size();
     int S2_size = S2.data.size();
@@ -135,15 +135,8 @@ while(S1.data.size() < max){
 
     for (std::vector<pennant*>::size_type k = 0; k < max; k++){
 
-         if(k >= S1_size){
-           S1.data[k]=FA(NULL, S2.data[k], y);
-        }
-        else if(k >= S2_size){
-             S1.data[k]= FA(S1.data[k], NULL, y);
-        }
-        else{
+
              S1.data[k]= FA( S1.data[k], S2.data[k], y );
-        }
 
     }
     if(y!=NULL){
@@ -206,7 +199,10 @@ pennant* bag::FA(pennant*  S1_k, pennant* S2_k, pennant* &y){
             return S2_k;
             break;
         case 100: //0,0,1
-           return y;
+            pennant* returner;
+            returner = y;
+            y=NULL;
+            return returner;
             break;
         case 11 : // 1,1,0
             y = pennant::pennantUnion(S1_k, S2_k);

@@ -27,7 +27,7 @@ struct node
         number = copy->number;
         visited = copy->visited;
         depth = copy->depth;
-        adjacencies = copy->adjacencies;
+        adjacencies=copy->adjacencies;
     }
 
 
@@ -55,6 +55,9 @@ struct node
 class pennant {
 public:
     pennant();
+
+    pennant(const pennant &other);
+
     ~pennant();
     pennant(node* rootStart);
     pennant pennantSplit(pennant& x);
@@ -64,7 +67,6 @@ public:
     node *root;
     int size;
 
-static pennant *pennantUnion(pennant *x, pennant *y);
 
     void deleteBelowLeft(node *spot);
 
@@ -73,6 +75,16 @@ static pennant *pennantUnion(pennant *x, pennant *y);
     void deleteBelowLeft(node *spot, int layersLeft);
 
     void deleteBelowRight(node *pNode, int i);
+
+    void addBelowLeft(node *spot, int layersLeft);
+
+    void addBelowRight(node *spot, int layersLeft);
+
+    void addBelowRight(node *spot, int layersLeft, node *ref);
+
+    void addBelowLeft(node *spot, int layersLeft, node *ref);
+
+    static pennant *pennantUnion(pennant *&x, pennant *&y);
 };
 
 

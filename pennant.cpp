@@ -16,16 +16,81 @@ pennant:: pennant(node* rootStart){
     size = 1;
 }
 
-pennant* pennant::pennantUnion(pennant* x, pennant* y){
-    if(x->size ==1 && y->size == 1){
-        x->size++;
-        x->root->left = y->root;
+pennant::pennant(const pennant & other) {
+    size = other.size;
+    if (other.size != 0) {
+
+        int layers = log2(other.size);
+        root = new node(other.root);
+        if (layers != 0) {
+            addBelowLeft(root->left, layers - 1, other.root->left);
+        }
+    }
+}
+
+
+
+void pennant::addBelowLeft(node* spot, int layersLeft, node* ref){
+
+    if(layersLeft != 0) {
+        addBelowLeft(root->left,layersLeft-1, ref->left);
+        addBelowRight(root->right, layersLeft-1, ref->left);
+
+    }
+    spot= new node(ref);
+}
+
+
+
+
+void pennant::addBelowRight(node* spot, int layersLeft, node* ref) {
+    if (layersLeft != 0) {
+        addBelowLeft(root->left,layersLeft-1, ref->left);
+        addBelowRight(root->right, layersLeft-1, ref->left);
+    }
+    spot= new node(ref);
+
+}
+
+
+
+
+
+
+
+pennant* pennant::pennantUnion(pennant*& x, pennant*& y){
+   pennant *temp1;
+    pennant *temp2;
+    if(x->size >0) {
+       pennant *temp1 = new pennant(*x);
+   if(y->size > 0){
+       pennant* temp2 = new pennant(*y);
+
+   } else {
+       return temp1;
+   }
+   } else if(y->size > 0){
+       pennant* temp2 = new pennant(*y);
+        return temp2;
+
+   }
+
+
+
+
+    if(temp1->size ==1 && temp2->size == 1){
+        temp1->size++;
+        temp1->root->left = temp2->root;
 
     } else{
-    x->size = x->size + y->size;
-    y->root->right = x->root->left;
-    x->root->left = y->root;}
-    return x;
+
+        temp1->size = temp1->size + temp2->size;
+        temp2->root->right = temp1->root->left;
+        temp1->root->left = temp2->root;
+
+    }
+
+    return temp1;
 }
 
 pennant pennant::pennantSplit(pennant& x) {
