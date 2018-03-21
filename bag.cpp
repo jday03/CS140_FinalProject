@@ -80,16 +80,12 @@ bag bag::bagSplit() {
 
 
 void bag::insertNode(node* insert) {
-    node* newNode = new node(insert);
 
-    newNode ->left = NULL;
-    newNode -> right = NULL;
 
     int count = 0;
     insert->visited = true;
-    newNode->visited = true;
     // merger must contain insert!!
-    pennant* merger = new pennant(newNode);
+    pennant* merger = new pennant(insert);
 
     if(data.size() == 0){
         pennant* newPennant = NULL;
@@ -98,6 +94,7 @@ void bag::insertNode(node* insert) {
 
     while (data[count] != NULL){
         merger = pennant::pennantUnion(merger,data[count]);
+        delete data[count];
         data[count] = NULL;
         count++;
 
@@ -110,7 +107,6 @@ void bag::insertNode(node* insert) {
 
     size++;
     (data[count]) = merger;
-    delete newNode;
     //delete merger;
 
 }

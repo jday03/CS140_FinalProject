@@ -119,58 +119,41 @@ void printDepthCounter(std::map<int, std::vector<int> > depthMap ){
 
 
 
-std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
-{
+std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
     std::map<int, std::vector<int> > depthMap;
     root->visited = true;
-    node* ptr = root;
+    node *ptr = root;
     ptr->depth = 0;
 
     bag frontier;
     frontier.insertNode(ptr);
 
-    /*
+
     for(int count = 0; count < 100000; ++ count) {
         frontier.insertNode(ptr);
     }
 
-    front.bagUnion(front,frontier);
 
-    front.bagUnion(front,frontier);
-
-    front.bagUnion(front,frontier);
-
-    front.bagUnion(front,frontier);
-
-    front.bagUnion(front,frontier);
-
-    front.bagUnion(front,frontier);
-
-    front.bagUnion(front,frontier);
-
-    front.bagUnion(front,frontier);
-
-    front.bagUnion(front,frontier);
-
-    front.bagUnion(front,frontier);
    // frontier.bagUnion(frontier,frontier2);
-*/
+/*
     int depthCounter = 0;
 
-   while ( ! frontier.isEmpty() )
-    {
+    while (!frontier.isEmpty()) {
         depthCounter++;
-       // cilk::reducer<BagMonoid> succbag;
+        // cilk::reducer<BagMonoid> succbag;
         //bag newFrontier;
 
         bag oneBag;
         bag twoBag;
-        bag* bagPtr = &twoBag;
+        bag *bagPtr = &twoBag;
 
-        for (int i=0; i< frontier.size; i++){
-            if(i> frontier.size/2){
+
+/*
+        for (int i = 0; i < frontier.size; i++) {
+            if (i > frontier.size / 2) {
                 bagPtr = &oneBag;
             }
+        }
 
             std::vector<node*> adjacents = frontier.getItem(i).getAdjacents();
             for (int adjCount = 0; adjCount < adjacents.size(); ++ adjCount) {
@@ -191,10 +174,10 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     }
 
     manageDepthCounter(depthCounter,graph,depthMap);
+*/
+        return depthMap;
 
-    return depthMap;
-
-}
+    }
 
 
 

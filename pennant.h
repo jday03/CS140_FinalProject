@@ -16,6 +16,8 @@ struct node
         number = num;
         visited = false;
         depth = -1;
+        left = NULL;
+        right = NULL;
     }
     node(){
         left = NULL;
@@ -28,6 +30,8 @@ struct node
         visited = copy->visited;
         depth = copy->depth;
         adjacencies=copy->adjacencies;
+        left = NULL;
+        right = NULL;
     }
 
 
@@ -36,7 +40,8 @@ struct node
             visited = copy.visited;
             depth = copy.depth;
             adjacencies = copy.adjacencies;
-
+            left = NULL;
+            right = NULL;
         }
 
 
@@ -67,10 +72,6 @@ public:
     node *root;
     int size;
 
-
-    void deleteBelowLeft(node *spot);
-
-    void deleteBelowRight(node *spot);
 
     void deleteBelowLeft(node *spot, int layersLeft);
 

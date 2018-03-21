@@ -31,13 +31,13 @@ pennant::pennant(const pennant & other) {
 
 
 void pennant::addBelowLeft(node*& spot, int layersLeft, node* ref){
-
+    spot= new node(*ref);
     if(layersLeft != 0) {
-        addBelowLeft(root->left,layersLeft-1, ref->left);
-        addBelowRight(root->right, layersLeft-1, ref->left);
+        addBelowLeft(spot->left,layersLeft-1, ref->left);
+        addBelowRight(spot->right, layersLeft-1, ref->right);
 
     }
-    spot= new node(ref);
+
 }
 
 
@@ -45,10 +45,10 @@ void pennant::addBelowLeft(node*& spot, int layersLeft, node* ref){
 
 void pennant::addBelowRight(node*& spot, int layersLeft, node* ref) {
     if (layersLeft != 0) {
-        addBelowLeft(root->left,layersLeft-1, ref->left);
-        addBelowRight(root->right, layersLeft-1, ref->left);
+        addBelowLeft(spot->left,layersLeft-1, ref->left);
+        addBelowRight(spot->right, layersLeft-1, ref->right);
     }
-    spot= new node(ref);
+    spot= new node(*ref);
 
 }
 
@@ -148,11 +148,11 @@ node pennant::getIndex(int index) {
 
 
 pennant::~pennant() {
-    int layers = log2(size);
+  /*  int layers = log2(size);
     node* ptr = root;
     if(layers >= 1)
     deleteBelowLeft(ptr->left,layers-1);
-    delete ptr;
+    delete ptr; */
 }
 
 void pennant::deleteBelowLeft(node* spot, int layersLeft){
