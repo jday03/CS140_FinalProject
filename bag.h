@@ -34,6 +34,8 @@ using namespace std;
             ~bag();
 
         pennant* FA(pennant *S1_k, pennant *S2_k, pennant *&y);
+
+        friend class cilk::monoid_base<bag>;
     };
 
 #endif

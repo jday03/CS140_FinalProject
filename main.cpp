@@ -41,6 +41,8 @@ public:
     void add_value(node* x) {
         item.insertNode(x);
     }
+    value_type get_value() const { return item; }
+
     value_type view_get_value() const { return item; }
 
 
