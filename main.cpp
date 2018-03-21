@@ -22,18 +22,31 @@ class bagMonoid;
 
 
 class BagView {
-    friend class bagMonoid;
     bag item;
 
 public:
     typedef bag value_type;
 
-    BagView(){
-
+    BagView(): item(){
     }
 
     void add_value(node* x) {
         item.insertNode(x);
+
+    }
+
+
+     void reduce(BagView *right){
+        std::cout << "Reducer called" << item.size << std::endl;
+
+        this->item.bagUnion(item,right->item);
+        std::cout << "I have " << item.size << std::endl;
+
+        // right->item.eraseAll();
+    }
+
+    value_type view_get_value() const{
+        return item;
     }
 
 };
@@ -46,15 +59,18 @@ class bagMonoid : public cilk::monoid_base<bag, BagView> {
     }
 
     static void reduce(value_type *left, value_type *right){
-        std::cout << "I have " << left->size << std::endl;
+        std::cout << "Reducer called " << left->size << std::endl;
+
         left->bagUnion(*left,*right);
+        std::cout << "I have " << left->size << std::endl;
+
         // right->item.eraseAll();
     }
 
 };
 
 
-//typedef cilk::monoid_with_view<BagView> BagMonoid;
+typedef cilk::monoid_with_view<BagView> BagMonoid;
 
 
 // Monoid class.
@@ -81,11 +97,9 @@ void insertEdge(std::vector<node*> &graph, int to, int from ){
     //graph.insert(graph.end(),newNode);
 
 
-    node* first = graph.at(to);
-    node* second = graph.at(from);
+    graph.at(to)->addAdjacency(from);
+    graph.at(from)->addAdjacency(to);
 
-    first->addAdjacency(second);
-    second->addAdjacency(first);
 
 }
 
@@ -140,41 +154,57 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
     bag frontier;
     frontier.insertNode(ptr);
 
-       // for(int count = 0; count < 100000; ++ count) {
-    //      frontier.insertNode(ptr);
-    //  }
+        for(int count = 0; count < 100000; ++ count) {
+         frontier.insertNode(ptr);
+      }
+
+    bag frontier2;
+    for(int count = 0; count < 100000; ++ count) {
+        frontier2.insertNode(ptr);
+    }
+
+    frontier.bagUnion(frontier,frontier2);
+    frontier2.eraseAll();
+
+    for(int count = 0; count < 100000; ++ count) {
+        frontier2.insertNode(ptr);
+    }
+    frontier.bagUnion(frontier,frontier2);
 
 
+/*
     // frontier.bagUnion(frontier,frontier2);
 
     int depthCounter = 0;
 
     while (!frontier.isEmpty()) {
         depthCounter++;
-        //bag_reducer succbag;
+      //  bag_reducer succbag;
         //bag newFrontier;
+
+       // cilk::reducer<BagMonoid> succbag;
 
         bag oneBag;
         bag twoBag;
         bag threeBag;
 
         std::cout << "Frontier size is: " << frontier.size << std::endl;
-        bag* ghettoReducer = new bag [frontier.size] ;
         for (int i = 0; i < frontier.size; i++) {
 
-            std::vector<node *> adjacents = frontier.getItem(i).getAdjacents();
+            std::vector<int> adjacents = frontier.getItem(i).getAdjacents();
             for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
-                if (!adjacents[adjCount]->visited) {
-                    adjacents[adjCount]->depth = depthCounter;
-//                    succbag.bagInsert(adjacents[adjCount]);
-                    ghettoReducer[i].insertNode(adjacents[adjCount]);
-                    /*if(adjCount%3 ==1) {
-                        oneBag.insertNode(adjacents[adjCount]);
+                if (!graph[adjacents[adjCount]]->visited) {
+                    graph[adjacents[adjCount]]->depth = depthCounter;
+                   //succbag->add_value(graph[adjacents[adjCount]]);
+
+                    if(adjCount%3 <=1) {
+                        oneBag.insertNode(graph[adjacents[adjCount]]);
                     }else {
                         if(adjCount %3 == 2){
-                            twoBag.insertNode(adjacents[adjCount]);
-                        } else threeBag.insertNode(adjacents[adjCount]);
-                    }*/
+                            twoBag.insertNode(graph[adjacents[adjCount]]);
+                        } else threeBag.insertNode(graph[adjacents[adjCount]]);
+                    }
+
                     //std::cout << "item proc is: " << adjacents[adjCount]->number << std::endl;
                 }
             }
@@ -184,22 +214,19 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
  //           frontier.bagUnion(frontier, twoBag);
            // std::cout << "loop complete" << std::endl;
         }
-        for(int i = 1; i< frontier.size; ++i){
-            ghettoReducer[0].bagUnion(ghettoReducer[0],ghettoReducer[i]);
-        }
 
-        frontier.eraseAll();
-        frontier=ghettoReducer[0];
-        delete [] ghettoReducer;
-        //oneBag = oneBag.bagUnion(oneBag,twoBag);
-        //twoBag.eraseAll();
-        //frontier = oneBag.bagUnion(oneBag,threeBag);
-      // frontier = succbag.get_value();
+
+       frontier.eraseAll();
+       oneBag.bagUnion(oneBag,twoBag);
+        twoBag.eraseAll();
+         oneBag.bagUnion(oneBag,threeBag);
+        frontier = oneBag;
+      //frontier = succbag.get_value();
     }
 
 
     manageDepthCounter(depthCounter,graph,depthMap);
-
+*/
         return depthMap;
 
     }

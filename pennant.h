@@ -46,12 +46,12 @@ struct node
 
 
 
-    std::vector<node*> adjacencies;
-    void addAdjacency(node* adjacentNode){
-        adjacencies.insert(adjacencies.end(),adjacentNode);
+    std::vector<int> adjacencies;
+    void addAdjacency(int num){
+        adjacencies.insert(adjacencies.end(),num);
     }
 
-    std::vector<node*> getAdjacents(){
+    std::vector<int> getAdjacents(){
         return adjacencies;
     }
 

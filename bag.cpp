@@ -113,12 +113,12 @@ void bag::insertNode(node* insert) {
 }
 
 
-bag bag::bagUnion(bag& S1, bag& S2) {
+void bag::bagUnion(bag& S1, bag& S2) {
 
     pennant *y =NULL;
-    int S1_size = S1.data.size();
-    int S2_size = S2.data.size();
-    int max = 0;
+    long S1_size = S1.data.size();
+    long S2_size = S2.data.size();
+    long max = 0;
 
     if(S1_size > S2_size)
         max = S1_size;
@@ -143,7 +143,7 @@ while(S1.data.size() < max){
    // size = S1.size + S2.size;
     this->size = S1.size + S2.size;
     std::cout << "got to bottom";
-    return S1;
+    //return S1;
 }
 
 node bag::getItem(int index){
@@ -179,7 +179,12 @@ void bag::eraseAll() {
 }
 
 
-pennant* bag::FA(pennant*  S1_k, pennant* S2_k, pennant* &y){
+pennant* bag::FA(pennant*  a, pennant* b, pennant* &y){
+
+    pennant*  S1_k = new pennant(*a);
+    pennant* S2_k = new pennant(*b);
+    pennant *yC = new pennant(*y);
+
     int value = 0;
     if( S1_k != NULL)
         value += 1;
@@ -199,7 +204,7 @@ pennant* bag::FA(pennant*  S1_k, pennant* S2_k, pennant* &y){
             break;
         case 100: //0,0,1
             pennant* returner;
-            returner = y;
+            returner = yC;
             y=NULL;
             return returner;
             break;
@@ -208,16 +213,16 @@ pennant* bag::FA(pennant*  S1_k, pennant* S2_k, pennant* &y){
             return NULL;
             break;
         case 101 : // 1,0,1
-            y = pennant::pennantUnion(S1_k, y);
+            y = pennant::pennantUnion(S1_k, yC);
             return NULL;
             break;
         case 110 : // 0,1,1
-            y= pennant::pennantUnion(S2_k, y);
+            y= pennant::pennantUnion(S2_k, yC);
             return NULL;
             break;
         case 111 : // 1,1,1
 
-            y = pennant::pennantUnion(S2_k, y);
+            y = pennant::pennantUnion(S2_k, yC);
             return S1_k;
     }
 }
