@@ -19,8 +19,6 @@
 
 
 
-
-
 class BagView {
     bag item;
 
@@ -32,13 +30,18 @@ public:
     }
 
     void reduce(BagView *right) {
-        item.bagUnion(item,right->item);
-    }
+        if(right->item.size > 0){
+
+          std::cout << "I have " << item.size << std::endl;
+          this->item.bagUnion(this->item,right->item);
+           // right->item.eraseAll();
+        }
+        }
 
     void add_value(node* x) {
         item.insertNode(x);
     }
-    bag view_get_value() const { return item; }
+    value_type view_get_value() const { return item; }
 
 
 
@@ -125,56 +128,63 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
     node *ptr = root;
     ptr->depth = 0;
 
+
     bag frontier;
     frontier.insertNode(ptr);
 
+       // for(int count = 0; count < 100000; ++ count) {
+    //      frontier.insertNode(ptr);
+    //  }
 
-    for(int count = 0; count < 100000; ++ count) {
-        frontier.insertNode(ptr);
-    }
 
+    // frontier.bagUnion(frontier,frontier2);
 
-   // frontier.bagUnion(frontier,frontier2);
-/*
     int depthCounter = 0;
 
     while (!frontier.isEmpty()) {
         depthCounter++;
-        // cilk::reducer<BagMonoid> succbag;
+        cilk::reducer<BagMonoid> succbag;
         //bag newFrontier;
 
         bag oneBag;
         bag twoBag;
-        bag *bagPtr = &twoBag;
+        bag threeBag;
 
+        std::cout << "Frontier size is: " << frontier.size << std::endl;
+        cilk_for (int i = 0; i < frontier.size; i++) {
 
-/*
-        for (int i = 0; i < frontier.size; i++) {
-            if (i > frontier.size / 2) {
-                bagPtr = &oneBag;
-            }
-        }
-
-            std::vector<node*> adjacents = frontier.getItem(i).getAdjacents();
-            for (int adjCount = 0; adjCount < adjacents.size(); ++ adjCount) {
+            std::vector<node *> adjacents = frontier.getItem(i).getAdjacents();
+            for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
                 if (!adjacents[adjCount]->visited) {
                     adjacents[adjCount]->depth = depthCounter;
-                   bagPtr->insertNode(adjacents[adjCount]);
-                    std::cout<< "item proc is: " << adjacents[adjCount]->number << std::endl;
-                   //succbag->add_value (adjacents[adjCount]);
+                    succbag->add_value(adjacents[adjCount]);
+
+                    /*if(adjCount%3 ==1) {
+                        oneBag.insertNode(adjacents[adjCount]);
+                    }else {
+                        if(adjCount %3 == 2){
+                            twoBag.insertNode(adjacents[adjCount]);
+                        } else threeBag.insertNode(adjacents[adjCount]);
+                    }*/
+                    //std::cout << "item proc is: " << adjacents[adjCount]->number << std::endl;
                 }
             }
 
+
+
+ //           frontier.bagUnion(frontier, twoBag);
+           // std::cout << "loop complete" << std::endl;
         }
         frontier.eraseAll();
-        frontier = oneBag;
-        frontier.bagUnion(frontier,twoBag);
-        std::cout << "loop complete" << std::endl;
-       // frontier = succbag.get_value();
+        //oneBag = oneBag.bagUnion(oneBag,twoBag);
+        //twoBag.eraseAll();
+        //frontier = oneBag.bagUnion(oneBag,threeBag);
+        frontier = succbag.get_value();
     }
 
+
     manageDepthCounter(depthCounter,graph,depthMap);
-*/
+
         return depthMap;
 
     }
@@ -212,11 +222,11 @@ int main(int argc, char **argv) {
     std::map<int, std::vector<int> > depthMap;
 
     srand(time(NULL));
-  //  t1 = example_get_time();
+   t1 = example_get_time();
     node * ptr = graph[1];
      depthMap = BFS(graph,ptr );
 
-  //  t2 = example_get_time();
+    t2 = example_get_time();
   printDepthCounter(depthMap);
 
     std::cout << "Time: " << t2 - t1 << std::endl;
@@ -226,4 +236,18 @@ int main(int argc, char **argv) {
 }
 
 
+/*
+ * cilk_for(int j = 0; j < 5; j++){
+        succbag->add_value(ptr);
+    }
 
+    frontier = succbag.get_value();
+
+    for (int k = 0; k < frontier.size; ++k){
+        std::cout<< "thing is " << frontier.getItem(k).number << std::endl;
+    }
+
+ *
+ *
+ *
+ */

@@ -11,8 +11,8 @@
 
 bag::bag(){
     size = 0;
-
 }
+
 
 bag::bag(const bag &other){
     size = 0;
@@ -26,7 +26,7 @@ bag::bag(const bag &other){
 }
 
 bag& bag::operator=(const bag& other){
-eraseAll();
+//eraseAll();
     size = 0;
     for(int outerCount = 0; outerCount < other.data.size(); ++outerCount){
         if(other.data[outerCount] != NULL) {
@@ -114,7 +114,6 @@ void bag::insertNode(node* insert) {
 
 bag bag::bagUnion(bag& S1, bag& S2) {
 
-std::cout<< " got here";
     pennant *y =NULL;
     int S1_size = S1.data.size();
     int S2_size = S2.data.size();
@@ -127,7 +126,9 @@ std::cout<< " got here";
 while(S1.data.size() < max){
     S1.data.insert(S1.data.end(),NULL);
 }
-
+    while(S2.data.size() < max){
+        S2.data.insert(S2.data.end(),NULL);
+    }
 
     for (std::vector<pennant*>::size_type k = 0; k < max; k++){
 
@@ -140,6 +141,7 @@ while(S1.data.size() < max){
     }
    // size = S1.size + S2.size;
     this->size = S1.size + S2.size;
+    std::cout << "got to bottom";
     return S1;
 }
 

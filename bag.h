@@ -2,12 +2,12 @@
 // Created by jday on 3/12/18.
 //
 #include <vector>
+#include <cilk/reducer.h>
 #include "pennant.h"
 #ifndef BAG_H
 #define BAG_H
 
 using namespace std;
-
 
 
     class bag{
@@ -32,7 +32,6 @@ using namespace std;
 
 
             ~bag();
-
 
         pennant* FA(pennant *S1_k, pennant *S2_k, pennant *&y);
     };

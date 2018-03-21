@@ -44,11 +44,12 @@ void pennant::addBelowLeft(node*& spot, int layersLeft, node* ref){
 
 
 void pennant::addBelowRight(node*& spot, int layersLeft, node* ref) {
-    if (layersLeft != 0) {
+    spot= new node(*ref);
+    if(layersLeft != 0) {
         addBelowLeft(spot->left,layersLeft-1, ref->left);
         addBelowRight(spot->right, layersLeft-1, ref->right);
+
     }
-    spot= new node(*ref);
 
 }
 
