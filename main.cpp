@@ -154,25 +154,8 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
     bag frontier;
     frontier.insertNode(ptr);
 
-        for(int count = 0; count < 100000; ++ count) {
-         frontier.insertNode(ptr);
-      }
-
-    bag frontier2;
-    for(int count = 0; count < 100000; ++ count) {
-        frontier2.insertNode(ptr);
-    }
-
-    frontier.bagUnion(frontier,frontier2);
-    frontier2.eraseAll();
-
-    for(int count = 0; count < 100000; ++ count) {
-        frontier2.insertNode(ptr);
-    }
-    frontier.bagUnion(frontier,frontier2);
 
 
-/*
     // frontier.bagUnion(frontier,frontier2);
 
     int depthCounter = 0;
@@ -182,20 +165,20 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
       //  bag_reducer succbag;
         //bag newFrontier;
 
-       // cilk::reducer<BagMonoid> succbag;
+       cilk::reducer<BagMonoid> succbag;
 
         bag oneBag;
         bag twoBag;
         bag threeBag;
 
         std::cout << "Frontier size is: " << frontier.size << std::endl;
-        for (int i = 0; i < frontier.size; i++) {
+        cilk_for (int i = 0; i < frontier.size; i++) {
 
             std::vector<int> adjacents = frontier.getItem(i).getAdjacents();
             for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
                 if (!graph[adjacents[adjCount]]->visited) {
                     graph[adjacents[adjCount]]->depth = depthCounter;
-                   //succbag->add_value(graph[adjacents[adjCount]]);
+                   succbag->add_value(graph[adjacents[adjCount]]);
 
                     if(adjCount%3 <=1) {
                         oneBag.insertNode(graph[adjacents[adjCount]]);
@@ -217,16 +200,16 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
 
 
        frontier.eraseAll();
-       oneBag.bagUnion(oneBag,twoBag);
+       /*oneBag.bagUnion(oneBag,twoBag);
         twoBag.eraseAll();
          oneBag.bagUnion(oneBag,threeBag);
-        frontier = oneBag;
-      //frontier = succbag.get_value();
+        frontier = oneBag; */
+      frontier = succbag.get_value();
     }
 
 
     manageDepthCounter(depthCounter,graph,depthMap);
-*/
+
         return depthMap;
 
     }

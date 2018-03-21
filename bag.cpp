@@ -133,12 +133,17 @@ while(S1.data.size() < max){
 
     for (std::vector<pennant*>::size_type k = 0; k < max; k++){
 
+            pennant * ptr1 =FA( S1.data[k], S2.data[k], y );
+            if(ptr1 != NULL){
+                S1.data[k]= new pennant(*ptr1);
 
-             S1.data[k]= FA( S1.data[k], S2.data[k], y );
+            } else{
+                S1.data[k] = NULL;
+            }
 
     }
     if(y!=NULL){
-        S1.data.insert(S1.data.end(),y);
+        S1.data.insert(S1.data.end(),new pennant(*y));
     }
    // size = S1.size + S2.size;
     this->size = S1.size + S2.size;
@@ -179,11 +184,8 @@ void bag::eraseAll() {
 }
 
 
-pennant* bag::FA(pennant*  a, pennant* b, pennant* &y){
 
-    pennant*  S1_k = new pennant(*a);
-    pennant* S2_k = new pennant(*b);
-    pennant *yC = new pennant(*y);
+pennant* bag::FA(pennant*  S1_k, pennant* S2_k, pennant* &y){
 
     int value = 0;
     if( S1_k != NULL)
@@ -204,7 +206,8 @@ pennant* bag::FA(pennant*  a, pennant* b, pennant* &y){
             break;
         case 100: //0,0,1
             pennant* returner;
-            returner = yC;
+            returner = new pennant (*y);
+            delete y;
             y=NULL;
             return returner;
             break;
@@ -213,16 +216,16 @@ pennant* bag::FA(pennant*  a, pennant* b, pennant* &y){
             return NULL;
             break;
         case 101 : // 1,0,1
-            y = pennant::pennantUnion(S1_k, yC);
+            y = pennant::pennantUnion(S1_k, y);
             return NULL;
             break;
         case 110 : // 0,1,1
-            y= pennant::pennantUnion(S2_k, yC);
+            y= pennant::pennantUnion(S2_k, y);
             return NULL;
             break;
         case 111 : // 1,1,1
 
-            y = pennant::pennantUnion(S2_k, yC);
+            y = pennant::pennantUnion(S2_k, y);
             return S1_k;
     }
 }
