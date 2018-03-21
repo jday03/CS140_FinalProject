@@ -30,7 +30,7 @@ pennant::pennant(const pennant & other) {
 
 
 
-void pennant::addBelowLeft(node* spot, int layersLeft, node* ref){
+void pennant::addBelowLeft(node*& spot, int layersLeft, node* ref){
 
     if(layersLeft != 0) {
         addBelowLeft(root->left,layersLeft-1, ref->left);
@@ -43,7 +43,7 @@ void pennant::addBelowLeft(node* spot, int layersLeft, node* ref){
 
 
 
-void pennant::addBelowRight(node* spot, int layersLeft, node* ref) {
+void pennant::addBelowRight(node*& spot, int layersLeft, node* ref) {
     if (layersLeft != 0) {
         addBelowLeft(root->left,layersLeft-1, ref->left);
         addBelowRight(root->right, layersLeft-1, ref->left);
@@ -62,15 +62,15 @@ pennant* pennant::pennantUnion(pennant*& x, pennant*& y){
    pennant *temp1;
     pennant *temp2;
     if(x->size >0) {
-       pennant *temp1 = new pennant(*x);
+       temp1 = new pennant(*x);
    if(y->size > 0){
-       pennant* temp2 = new pennant(*y);
+        temp2 = new pennant(*y);
 
    } else {
        return temp1;
    }
    } else if(y->size > 0){
-       pennant* temp2 = new pennant(*y);
+       temp2 = new pennant(*y);
         return temp2;
 
    }

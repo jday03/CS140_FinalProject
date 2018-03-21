@@ -76,13 +76,10 @@ public:
 
     void deleteBelowRight(node *pNode, int i);
 
-    void addBelowLeft(node *spot, int layersLeft);
 
-    void addBelowRight(node *spot, int layersLeft);
+    void addBelowRight(node *&spot, int layersLeft, node *ref);
 
-    void addBelowRight(node *spot, int layersLeft, node *ref);
-
-    void addBelowLeft(node *spot, int layersLeft, node *ref);
+    void addBelowLeft(node *&spot, int layersLeft, node *ref);
 
     static pennant *pennantUnion(pennant *&x, pennant *&y);
 };

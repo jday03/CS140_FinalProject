@@ -125,8 +125,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
     root->visited = true;
     node* ptr = root;
     ptr->depth = 0;
-    bag front;
-    front.insertNode(ptr);
+
     bag frontier;
     frontier.insertNode(ptr);
 
@@ -184,6 +183,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root)
             }
 
         }
+        frontier.eraseAll();
         frontier = oneBag;
         frontier.bagUnion(frontier,twoBag);
         std::cout << "loop complete" << std::endl;

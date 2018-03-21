@@ -42,7 +42,7 @@ bag::~bag(){
     int size = data.size();
     for(int count = size - 1; count >= 0; -- count){
 
-        delete data[count];
+        //delete data[count];
         data.erase(data.begin()+count);
     }
 
