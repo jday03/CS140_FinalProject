@@ -113,10 +113,10 @@ void bag::insertNode(node* insert) {
 }
 
 
-void bag::bagUnion(bag& S1, bag& S2) {
+void bag::bagUnion( bag& S2) {
 
     pennant *y =NULL;
-    long S1_size = S1.data.size();
+    long S1_size = this->data.size();
     long S2_size = S2.data.size();
     long max = 0;
 
@@ -124,30 +124,31 @@ void bag::bagUnion(bag& S1, bag& S2) {
         max = S1_size;
     else
         max = S2_size;
-while(S1.data.size() < max){
-    S1.data.insert(S1.data.end(),NULL);
+while(this->data.size() < max){
+    this->data.insert(this->data.end(),NULL);
 }
     while(S2.data.size() < max){
         S2.data.insert(S2.data.end(),NULL);
     }
 
+
+
     for (std::vector<pennant*>::size_type k = 0; k < max; k++){
 
-            pennant * ptr1 =FA( S1.data[k], S2.data[k], y );
+            pennant * ptr1 =FA( this->data[k], S2.data[k], y );
             if(ptr1 != NULL){
-                S1.data[k]= new pennant(*ptr1);
+                this->data[k]= new pennant(*ptr1);
 
             } else{
-                S1.data[k] = NULL;
+                this->data[k] = NULL;
             }
 
     }
     if(y!=NULL){
-        S1.data.insert(S1.data.end(),new pennant(*y));
+        this->data.insert(this->data.end(),new pennant(*y));
     }
    // size = S1.size + S2.size;
-    this->size = S1.size + S2.size;
-    std::cout << "got to bottom";
+    this->size = this->size + S2.size;
     //return S1;
 }
 

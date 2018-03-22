@@ -21,7 +21,7 @@ using namespace std;
     bag bagSplit();
     void insertPennant(pennant* insert);
     void insertNode(node* insert);
-    void bagUnion( bag& S1, bag& S2);
+    void bagUnion( bag& S2);
     node getItem(int index);
     bool isEmpty(){
         return size == 0;

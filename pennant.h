@@ -29,7 +29,6 @@ struct node
         number = copy->number;
         visited = copy->visited;
         depth = copy->depth;
-        adjacencies=copy->adjacencies;
         left = NULL;
         right = NULL;
     }
@@ -39,21 +38,10 @@ struct node
             number = copy.number;
             visited = copy.visited;
             depth = copy.depth;
-            adjacencies = copy.adjacencies;
             left = NULL;
             right = NULL;
         }
 
-
-
-    std::vector<int> adjacencies;
-    void addAdjacency(int num){
-        adjacencies.insert(adjacencies.end(),num);
-    }
-
-    std::vector<int> getAdjacents(){
-        return adjacencies;
-    }
 
 };
 
@@ -76,7 +64,6 @@ public:
     void deleteBelowLeft(node *spot, int layersLeft);
 
     void deleteBelowRight(node *pNode, int i);
-
 
     void addBelowRight(node *&spot, int layersLeft, node *ref);
 
