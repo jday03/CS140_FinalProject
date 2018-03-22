@@ -5,6 +5,7 @@
 
 #ifndef PENNANT_H
 #define PENNANT_H
+
 struct node
 {
     int number;
@@ -29,21 +30,34 @@ struct node
         number = copy->number;
         visited = copy->visited;
         depth = copy->depth;
+        adjacencies=copy->adjacencies;
         left = NULL;
         right = NULL;
     }
 
 
     node(const node& copy){
-            number = copy.number;
-            visited = copy.visited;
-            depth = copy.depth;
-            left = NULL;
-            right = NULL;
-        }
+        number = copy.number;
+        visited = copy.visited;
+        depth = copy.depth;
+        adjacencies = copy.adjacencies;
+        left = NULL;
+        right = NULL;
+    }
 
+
+
+    std::vector<int> adjacencies;
+    void addAdjacency(int num){
+        adjacencies.insert(adjacencies.end(),num);
+    }
+
+    std::vector<int> getAdjacents(){
+        return adjacencies;
+    }
 
 };
+
 
 class pennant {
 public:

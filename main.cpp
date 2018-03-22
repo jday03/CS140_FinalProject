@@ -13,71 +13,6 @@
 
 
 
-struct adjNode
-{
-    int number;
-    node *left;
-    node *right;
-    bool visited;
-    int depth;
-    adjNode(int num){
-        number = num;
-        visited = false;
-        depth = -1;
-        left = NULL;
-        right = NULL;
-    }
-    adjNode(){
-        left = NULL;
-        right = NULL;
-        number = -1;
-    }
-
-    adjNode(adjNode* copy){
-        number = copy->number;
-        visited = copy->visited;
-        depth = copy->depth;
-        adjacencies=copy->adjacencies;
-        left = NULL;
-        right = NULL;
-    }
-
-
-    adjNode(const adjNode& copy){
-        number = copy.number;
-        visited = copy.visited;
-        depth = copy.depth;
-        adjacencies = copy.adjacencies;
-        left = NULL;
-        right = NULL;
-    }
-
-
-
-    std::vector<int> adjacencies;
-    void addAdjacency(int num){
-        adjacencies.insert(adjacencies.end(),num);
-    }
-
-    std::vector<int> getAdjacents(){
-        return adjacencies;
-    }
-
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -302,7 +237,7 @@ int main(int argc, char **argv) {
         printf("Usage : ./pbfs <graphinputfile> \n");
         exit(-1);
     }
-    std::vector<adjNode*> graph;
+    std::vector<node*> graph;
 
     std::ifstream inFile;
     inFile.open(argv[1]);
@@ -321,7 +256,7 @@ int main(int argc, char **argv) {
 
     srand(time(NULL));
    t1 = example_get_time();
-    adjNode * ptr = graph[1];
+    node * ptr = graph[1];
      depthMap = BFS(graph,ptr );
 
     t2 = example_get_time();

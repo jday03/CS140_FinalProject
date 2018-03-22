@@ -135,7 +135,7 @@ while(this->data.size() < max){
 
     for (std::vector<pennant*>::size_type k = 0; k < max; k++){
 
-            pennant * ptr1 =FA( this->data[k], S2.data[k], y );
+            pennant * ptr1 = FA( this->data[k], S2.data[k], y );
             if(ptr1 != NULL){
                 this->data[k]= new pennant(*ptr1);
 
