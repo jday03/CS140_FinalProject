@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <cilk/reducer.h>
+#include <cilk/reducer_list.h>
 #include <cilk/cilk.h>
 #include "pennant.h"
 #include "bag.h"
@@ -180,6 +181,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
 
     while (!frontier2.empty()) {
         depthCounter++;
+
         cilk::reducer< cilk::op_list_append<int> > succlist;
         //hyperobject< reducer_list_append<int> > succlist();
         std::cout << "Frontier size is: " << graph[frontier2.front()]->adjacencies.size() << std::endl;
@@ -192,12 +194,12 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
 
                 if (parent[adjacents[adjCount]]->number == graph[frontier2.front()]->adjacencies[i])
 
-                    succlist.push_back(adjacents[adjCount]);
+                    succlist->push_back(adjacents[adjCount]);
                     graph[adjacents[adjCount]]->depth = depthCounter;
                     graph[adjacents[adjCount]]->visited = true;
                 }
             }
-        frontier2 = succlist.getValue();
+        frontier2 = succlist.get_value();
         }
 
 
