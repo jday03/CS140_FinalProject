@@ -96,8 +96,6 @@ void insertEdge(std::vector<node*> &graph, int to, int from ){
 
     }
 
-   // node* newNode = new node(graph.size());
-    //graph.insert(graph.end(),newNode);
 
 
     graph.at(to)->addAdjacency(from);
@@ -145,40 +143,17 @@ int nodeCounter = 0;
 }
 
 
-/*
-void BFS(Graph *G, Vertex root)
-{
-    list<Vertex> frontier(root);
-    Vertex * parent = new Vertex[n];
-    while ( ! frontier.isEmpty() ) {
 
-        hyperobject< reducer_list_append<Vertex> > succlist();
-        cilk_for (int i=0; i< frontier.size(); i++)
-        {
-            for( Vertex v in frontier[i].adjacency() )
-            {
-                if ( parent[v] == frontier[i] )
-                {
-                    succlist.push_back(v);
-                    v.visit(); // Mark “visited”
-                }
-            }
-        }
-        frontier = succlist.getValue();
-        */
 
 std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
     std::map<int, std::vector<int> > depthMap;
     root->visited = true;
     root->depth = 0;
 
-   // list<node *> frontier;
     list<int> frontier2;
     frontier2.insert(frontier2.begin() ,root->number);
-    //frontier.push_front(root);
     int * parentArray = new int[graph.size() + 1];
 
-    //int * parent1 = new int[graph.size()];
 
     int depthCounter = 0;
 
@@ -211,20 +186,15 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
                 if (parentArray[adjacents[adjCount]] == *(iter)){
 
                     succlist->push_back(adjacents[adjCount]);
-                //graph[adjacents[adjCount]]->depth = depthCounter;
                 graph[adjacents[adjCount]]->visited = true;
                     graph[adjacents[adjCount]]->depth = depthCounter;
-                   // std::cout<< adjacents[adjCount];
                 }
             }
 
             }
 
-        std::cout<< frontier2.size() << std::endl;
         frontier2.clear();
-        std::cout<< frontier2.size() << std::endl;
         frontier2 = succlist.get_value();
-        std::cout<< frontier2.size() << std::endl;
     }
 
 
@@ -242,7 +212,6 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
 
 int main(int argc, char **argv) {
     long t1, t2;
-    //cilk::hyperobject< Bag<int> > succbag();
     if(argc < 2)
     {
         printf("Usage : ./pbfs <graphinputfile> \n");
@@ -257,8 +226,6 @@ int main(int argc, char **argv) {
     while(inFile.good()){
         inFile>>temp1;
         inFile>>temp2;
-        //temp2 = inFile.get();
-        //add vertexes to graph
         insertEdge(graph,temp1,temp2);
     }
 
@@ -280,18 +247,3 @@ int main(int argc, char **argv) {
 }
 
 
-/*
- * cilk_for(int j = 0; j < 5; j++){
-        succbag->add_value(ptr);
-    }
-
-    frontier = succbag.get_value();
-
-    for (int k = 0; k < frontier.size; ++k){
-        std::cout<< "thing is " << frontier.getItem(k).number << std::endl;
-    }
-
- *
- *
- *
- */
