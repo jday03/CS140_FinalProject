@@ -46,20 +46,21 @@ using namespace std;
 
 
 /*
-class bag_reducer {
+class bagreducer {
 public:
+
     struct monoid: cilk::monoid_base<bag> {
         static void reduce(bag* bag1, bag* bag2) { /////#
             bag1->bagUnion(*bag1,*bag2);
         }
     };
 
-    bag_reducer() : mon() {}
-    void bagInsert(node *value){mon.view().insertNode(value);}
-    //void bag_union(bag_reducer * y) {this->mon.view().bagUnion(mon.view(),y->mon.view());}
-    bag get_value(){return mon.get_value();}
+    bag_reducer() : mono() {}
+    void bagInsert(node *value){mono.view().insertNode(value);}
+    //void bag_union(bag_reducer * y) {this->mono.view().bagUnion(mono.view(),y->mono.view());}
+    bag get_value(){return mono.get_value();}
 private:
-    cilk::reducer<monoid> mon;
+    cilk::reducer<monoid> mono;
 
 };
 

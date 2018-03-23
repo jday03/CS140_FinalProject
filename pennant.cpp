@@ -96,8 +96,10 @@ pennant* pennant::pennantUnion(pennant*& x, pennant*& y){
 
 pennant pennant::pennantSplit(pennant& x) {
     pennant y ;
-    y.root = x.root->left;
+    y.root = x.root->left-> left;
+
     x.root->left = y.root->right;
+
     y.root->right = NULL;
     x.size = x.size /2;
     y.size = x.size;

@@ -127,17 +127,18 @@ void manageDepthCounter(int depthCount, std::vector <node*> graph,std::map < int
 
 void printDepthCounter(std::map<int, std::vector<int> > depthMap ){
     std::map<int, std::vector<int> >::iterator iter = depthMap.begin();
-
+    int items = 0;
     while (iter != depthMap.end()){
         std::cout<< "Nodes at depth" << iter->first << ": ";
         for(int count = 0; count < iter->second.size();++count){
             std::cout<< " " << (iter->second[count]) << ", ";
-
+            ++items;
         }
         std::cout << std::endl;
         iter++;
     }
 
+    std::cout<< "Nodes: " << items << std::endl;
 }
 
 
@@ -172,7 +173,7 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
             basicReducer.insert(basicReducer.end(),newBag);
         }
 
-        std::cout << "Frontier size is: " << frontier.size << std::endl;
+       // std::cout << "Frontier size is: " << frontier.size << std::endl;
         for (int i = 0; i < frontier.size; i++) {
             std::vector<int> adjacents = frontier.getItem(i).getAdjacents();
             for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
@@ -256,7 +257,8 @@ int main(int argc, char **argv) {
 
     srand(time(NULL));
    t1 = example_get_time();
-    node * ptr = graph[1];
+    node * ptr = graph[temp1];
+
      depthMap = BFS(graph,ptr );
 
     t2 = example_get_time();
