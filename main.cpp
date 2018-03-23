@@ -130,16 +130,17 @@ void manageDepthCounter(int depthCount, std::vector <node*> graph,std::map < int
 
 void printDepthCounter(std::map<int, std::vector<int> > depthMap ){
     std::map<int, std::vector<int> >::iterator iter = depthMap.begin();
-
+int nodeCounter = 0;
     while (iter != depthMap.end()){
         std::cout<< "Nodes at depth" << iter->first << ": ";
         for(int count = 0; count < iter->second.size();++count){
             std::cout<< " " << (iter->second[count]) << ", ";
-
+            ++nodeCounter;
         }
         std::cout << std::endl;
         iter++;
     }
+    std::cout << "nodes: " <<nodeCounter<<std::endl;
 
 }
 
@@ -172,8 +173,8 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
     root->depth = 0;
 
    // list<node *> frontier;
-    list<int> frontier2(root->number);
-
+    list<int> frontier2;
+    frontier2.insert(frontier2.begin() ,root->number);
     //frontier.push_front(root);
     int * parentArray = new int[graph.size() + 1];
 
@@ -183,34 +184,47 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
 
     while (!frontier2.empty()) {
         depthCounter++;
-        std::cout << "Frontier size is: " << graph[frontier2.front()]->adjacencies.size() << std::endl;
+        cilk_for(int i = 0; i < frontier2.size(); i++ ){
+            std::_List_iterator<int> iter = frontier2.begin();
+            for(int count = 0; count < i; count ++){
+                ++iter;
+            }
 
-        cilk_for(int i = 0; i < graph[frontier2.front()]->adjacencies.size(); i++ ){
-
-            std::vector<int> adjacents = graph[frontier2.front()]->getAdjacents();
+            std::vector<int> adjacents = graph[*(iter)]->getAdjacents();
 
             for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
                 if (!graph[adjacents[adjCount]]->visited) {
-                    parentArray[adjacents[adjCount]]= graph[frontier2.front()]->adjacencies[i];
+                    parentArray[adjacents[adjCount]]= *(iter);
                 }
             }
         }
 
         cilk::reducer< cilk::op_list_append<int> > succlist;
-        cilk_for(int i = 0; i < graph[frontier2.front()]->adjacencies.size(); i ++ ){
-            std::vector<int> adjacents = graph[frontier2.front()]->getAdjacents();
+        cilk_for(int i = 0; i < frontier2.size(); i++ ){
+            std::_List_iterator<int> iter = frontier2.begin();
+            for(int count = 0; count < i; count ++){
+                ++iter;
+            }
+            std::vector<int> adjacents = graph[*(iter)]->getAdjacents();
 
             for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
-                if (parentArray[adjacents[adjCount]] == graph[frontier2.front()]->adjacencies[i]){
+                if (parentArray[adjacents[adjCount]] == *(iter)){
 
                     succlist->push_back(adjacents[adjCount]);
                 //graph[adjacents[adjCount]]->depth = depthCounter;
                 graph[adjacents[adjCount]]->visited = true;
+                    graph[adjacents[adjCount]]->depth = depthCounter;
+                   // std::cout<< adjacents[adjCount];
                 }
             }
 
             }
+
+        std::cout<< frontier2.size() << std::endl;
+        frontier2.clear();
+        std::cout<< frontier2.size() << std::endl;
         frontier2 = succlist.get_value();
+        std::cout<< frontier2.size() << std::endl;
     }
 
 
@@ -253,7 +267,7 @@ int main(int argc, char **argv) {
 
     srand(time(NULL));
    t1 = example_get_time();
-    node * ptr = graph[1];
+    node * ptr = graph[temp1];
      depthMap = BFS(graph,ptr );
 
     t2 = example_get_time();
