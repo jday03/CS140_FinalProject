@@ -175,8 +175,8 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
     list<int> frontier2(root->number);
 
     //frontier.push_front(root);
+    int * parentArray = new int[graph.size() + 1];
 
-    node **parent = new node *[graph.size()];
     //int * parent1 = new int[graph.size()];
 
     int depthCounter = 0;
@@ -191,22 +191,22 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
 
             for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
                 if (!graph[adjacents[adjCount]]->visited) {
-                    parent[adjacents[adjCount]]->number = graph[frontier2.front()]->adjacencies[i];
+                    parentArray[adjacents[adjCount]]= graph[frontier2.front()]->adjacencies[i];
                 }
             }
         }
-    }
-    while (!frontier2.empty()){
+
         cilk::reducer< cilk::op_list_append<int> > succlist;
         cilk_for(int i = 0; i < graph[frontier2.front()]->adjacencies.size(); i ++ ){
             std::vector<int> adjacents = graph[frontier2.front()]->getAdjacents();
 
             for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
-                if (parent[adjacents[adjCount]]->number == graph[frontier2.front()]->adjacencies[i])
+                if (parentArray[adjacents[adjCount]] == graph[frontier2.front()]->adjacencies[i]){
 
                     succlist->push_back(adjacents[adjCount]);
                 //graph[adjacents[adjCount]]->depth = depthCounter;
                 graph[adjacents[adjCount]]->visited = true;
+                }
             }
 
             }
