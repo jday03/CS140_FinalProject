@@ -10,12 +10,12 @@
 #include <numeric>
 #include <cmath>
 #include "example_util_gettime.h"
+#include <list>
 
 
 
 
-
-
+/*
 class bagMonoid;
 
 
@@ -72,7 +72,7 @@ typedef cilk::monoid_with_view<BagView> BagMonoid;
 
 
 // Monoid class.
-
+*/
 
 
 
@@ -141,86 +141,69 @@ void printDepthCounter(std::map<int, std::vector<int> > depthMap ){
 }
 
 
+/*
+void BFS(Graph *G, Vertex root)
+{
+    list<Vertex> frontier(root);
+    Vertex * parent = new Vertex[n];
+    while ( ! frontier.isEmpty() ) {
 
-
+        hyperobject< reducer_list_append<Vertex> > succlist();
+        cilk_for (int i=0; i< frontier.size(); i++)
+        {
+            for( Vertex v in frontier[i].adjacency() )
+            {
+                if ( parent[v] == frontier[i] )
+                {
+                    succlist.push_back(v);
+                    v.visit(); // Mark “visited”
+                }
+            }
+        }
+        frontier = succlist.getValue();
+        */
 
 std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
     std::map<int, std::vector<int> > depthMap;
     root->visited = true;
-    node *ptr = root;
-    ptr->depth = 0;
+    root->depth = 0;
 
+   // list<node *> frontier;
+    list<int> frontier2(root->number);
 
-    bag frontier;
-    frontier.insertNode(ptr);
+    //frontier.push_front(root);
 
-
-
-    // frontier.bagUnion(frontier,frontier2);
-    //cilk::reducer<BagMonoid> succbag;
+    node **parent = new node *[graph.size()];
+    //int * parent1 = new int[graph.size()];
 
     int depthCounter = 0;
 
-
-    while (!frontier.isEmpty()) {
+    while (!frontier2.empty()) {
         depthCounter++;
-      //  bag_reducer succbag;
-        //bag newFrontier;
-        std::vector<bag> basicReducer;
-        for(int count = 0; count < frontier.size; ++count){
-            bag newBag;
-            basicReducer.insert(basicReducer.end(),newBag);
-        }
+        cilk::reducer< cilk::op_list_append<int> > succlist;
+        //hyperobject< reducer_list_append<int> > succlist();
+        std::cout << "Frontier size is: " << graph[frontier2.front()]->adjacencies.size() << std::endl;
 
-        std::cout << "Frontier size is: " << frontier.size << std::endl;
-        for (int i = 0; i < frontier.size; i++) {
-            std::vector<int> adjacents = frontier.getItem(i).getAdjacents();
+        cilk_for(int i = 0; i < graph[frontier2.front()]->adjacencies.size(); i ++ ){
+
+            std::vector<int> adjacents = graph[frontier2.front()]->getAdjacents();
+
             for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
-                if (!graph[adjacents[adjCount]]->visited) {
+
+                if (parent[adjacents[adjCount]]->number == graph[frontier2.front()]->adjacencies[i])
+
+                    succlist.push_back(adjacents[adjCount]);
                     graph[adjacents[adjCount]]->depth = depthCounter;
-                   basicReducer[i].insertNode(graph[adjacents[adjCount]]);
-
-                    //succbag->add_value(graph[adjacents[adjCount]]);
-/*
-                    if(adjCount%3 <=1) {
-                        oneBag.insertNode(graph[adjacents[adjCount]]);
-                    }else {
-                        if(adjCount %3 == 2){
-                            twoBag.insertNode(graph[adjacents[adjCount]]);
-                        } else threeBag.insertNode(graph[adjacents[adjCount]]);
-                    } */
-
-                    //std::cout << "item proc is: " << adjacents[adjCount]->number << std::endl;
+                    graph[adjacents[adjCount]]->visited = true;
                 }
             }
-
-
-
- //           frontier.bagUnion(frontier, twoBag);
-           // std::cout << "loop complete" << std::endl;
+        frontier2 = succlist.getValue();
         }
 
 
-        for(int c = 1; c < frontier.size; ++c){
-            basicReducer[0].bagUnion(basicReducer[c]);
-        }
-
-        frontier.eraseAll();
-
-        frontier = basicReducer[0];
-        /*oneBag.bagUnion(oneBag,twoBag);
-         twoBag.eraseAll();
-          oneBag.bagUnion(oneBag,threeBag);
-         frontier = oneBag; */
-     // frontier = succbag.get_value();
-    }
-
-
-    manageDepthCounter(depthCounter,graph,depthMap);
-
-        return depthMap;
-
-    }
+    manageDepthCounter(depthCounter, graph, depthMap);
+    return depthMap;
+}
 
 
 

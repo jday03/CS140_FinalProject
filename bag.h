@@ -35,10 +35,10 @@ using namespace std;
 
         pennant* FA(pennant *S1_k, pennant *S2_k, pennant *&y);
 
-        friend class cilk::monoid_base<bag>;
+        //friend class cilk::monoid_base<bag>;
 
-        friend class bag_reducer;
-        friend class cilk::monoid_base<bag>;
+        //friend class bag_reducer;
+       // friend class cilk::monoid_base<bag>;
     };
 
 
