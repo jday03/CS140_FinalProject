@@ -5,6 +5,8 @@
 #include <cilk/reducer.h>
 #include <cilk/reducer_list.h>
 #include <cilk/cilk.h>
+#include <cilk/reducer_string.h>
+#include <cilk/reducer_list.h>
 #include "pennant.h"
 #include "bag.h"
 #include <fstream>
@@ -181,26 +183,36 @@ std::map<int, std::vector<int> > BFS(std::vector<node*> graph,node* root) {
 
     while (!frontier2.empty()) {
         depthCounter++;
-
-        cilk::reducer< cilk::op_list_append<int> > succlist;
-        //hyperobject< reducer_list_append<int> > succlist();
         std::cout << "Frontier size is: " << graph[frontier2.front()]->adjacencies.size() << std::endl;
 
-        cilk_for(int i = 0; i < graph[frontier2.front()]->adjacencies.size(); i ++ ){
+        cilk_for(int i = 0; i < graph[frontier2.front()]->adjacencies.size(); i++ ){
 
             std::vector<int> adjacents = graph[frontier2.front()]->getAdjacents();
 
             for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
+                if (!graph[adjacents[adjCount]]->visited) {
+                    parent[adjacents[adjCount]]->number = graph[frontier2.front()]->adjacencies[i];
+                }
+            }
+        }
+    }
+    while (!frontier2.empty()){
+        cilk::reducer< cilk::op_list_append<int> > succlist;
+        cilk_for(int i = 0; i < graph[frontier2.front()]->adjacencies.size(); i ++ ){
+            std::vector<int> adjacents = graph[frontier2.front()]->getAdjacents();
 
+            for (int adjCount = 0; adjCount < adjacents.size(); ++adjCount) {
                 if (parent[adjacents[adjCount]]->number == graph[frontier2.front()]->adjacencies[i])
 
                     succlist->push_back(adjacents[adjCount]);
-                    graph[adjacents[adjCount]]->depth = depthCounter;
-                    graph[adjacents[adjCount]]->visited = true;
-                }
+                //graph[adjacents[adjCount]]->depth = depthCounter;
+                graph[adjacents[adjCount]]->visited = true;
+            }
+
             }
         frontier2 = succlist.get_value();
-        }
+    }
+
 
 
     manageDepthCounter(depthCounter, graph, depthMap);
